@@ -11,13 +11,16 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from . import settings_odm2admin
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 EXPORTDB = False
+
 APP_NAME = 'odm2admin'
-VERBOSE_NAME = "ODM2 Admin"
+VERBOSE_NAME = 'ODM2 Admin'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -41,6 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #libs
+    'widget_tweaks',
+    'betterforms',
 
     #ODM2Admin
     'odm2admin',
@@ -109,106 +116,6 @@ DATABASES = {
     }
 }
 
-"""################Configurações odm2admin################"""
-
-""" SENSOR DASHBOARD CONFIGURATION """
-SENSOR_DASHBOARD = {
-    "time_series_days": 30,
-    "featureactionids": [1699, 1784,1782,1701],
-}
-""" END SENSOR DASHBOARD CONFIGURATION"""
-
-""" MAP CONFIGURATION """
-MAP_CONFIG = {
-    "lat": 0,
-    "lon": 0,
-    "zoom": 2,
-    "cluster_feature_types": ['Profile','Specimen','Excavation','Field area'],
-    "time_series_months": 1,
-    "display_titles": True,
-    "MapBox": {
-      "access_token": 'mapbox accessToken'
-    },
-    "result_value_processing_levels_to_display": [1, 2, 3],
-    "feature_types": ['Site','Profile','Specimen','Excavation','Field area',
-                  'Weather station','Observation well','Stream gage','Transect']
-}
-""" END MAP CONFIGURATION """
-
-""" SAMPLING FEATURE TYPE LEGEND MAPPING """
-LEGEND_MAP = {
-        'Excavation': dict(feature_type="Excavation", icon="fa-spoon", color="darkred",
-                           style_class="awesome-marker-icon-darkred"),
-        'Field area': dict(feature_type="Field area", icon="fa-map-o", color="darkblue",
-                           style_class="awesome-marker-icon-darkblue"),
-        'Weather station': dict(feature_type="Weather station", icon="fa-cloud", color="darkblue",
-                                style_class="awesome-marker-icon-darkblue"),
-        'Ecological land classification': dict(feature_type="Ecological land classification",
-                                               icon="fa-bar-chart", color="darkpurple",
-                                               style_class="awesome-marker-icon-darkpurple"),
-        'Observation well': dict(feature_type="Observation well", icon="fa-eye", color="orange",
-                                 style_class="awesome-marker-icon-orange"),
-        'Site': dict(feature_type="Site", icon="fa-dot-circle-o", color="green",
-                     style_class="awesome-marker-icon-green"),
-        'Stream gage': dict(feature_type="Stream gage", icon="fa-tint", color="blue",
-                            style_class="awesome-marker-icon-blue"),
-        'Transect': dict(feature_type="Transect", icon="fa-area-chart", color="cadetblue",
-                         style_class="awesome-marker-icon-cadetblue"),
-        'Profile': dict(feature_type="Profile", icon="fa-database", color="purple",
-             style_class="awesome-marker-icon-purple"),
-        'Specimen': dict(feature_type="Specimen", icon="fa-flask", color="cadetblue",
-                         style_class="awesome-marker-icon-cadetblue")
-    }
-""" END SAMPLING FEATURE TYPE LEGEND MAPPING """
-
-""" DATA DISCLAIMER CONFIGURATION """
-DATA_DISCLAIMER = {
-    "text" : "Add a link discribing where your data come from",
-    "linktext" : "The name of my site",
-    "link" : "http://mysiteswegpage.page/",
-}
-""" END DATA DISCLAIMER CONFIGURATION """
-
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
-    'social_core.pipeline.social_auth.social_uid',
-    'social_core.pipeline.social_auth.social_user',
-    'social_core.pipeline.user.get_username',
-    'social_core.pipeline.user.create_user',
-    'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.social_auth.load_extra_data',
-    'social_core.pipeline.user.user_details',
-    'social_core.pipeline.social_auth.associate_by_email',)
-
-
-""" SAMPLING FEATURE TYPE LEGEND MAPPING """
-LEGEND_MAP = {
-        'Excavation': dict(feature_type="Excavation", icon="fa-spoon", color="darkred",
-                           style_class="awesome-marker-icon-darkred"),
-        'Field area': dict(feature_type="Field area", icon="fa-map-o", color="darkblue",
-                           style_class="awesome-marker-icon-darkblue"),
-        'Weather station': dict(feature_type="Weather station", icon="fa-cloud", color="darkblue",
-                                style_class="awesome-marker-icon-darkblue"),
-        'Ecological land classification': dict(feature_type="Ecological land classification",
-                                               icon="fa-bar-chart", color="darkpurple",
-                                               style_class="awesome-marker-icon-darkpurple"),
-        'Observation well': dict(feature_type="Observation well", icon="fa-eye", color="orange",
-                                 style_class="awesome-marker-icon-orange"),
-        'Site': dict(feature_type="Site", icon="fa-dot-circle-o", color="green",
-                     style_class="awesome-marker-icon-green"),
-        'Stream gage': dict(feature_type="Stream gage", icon="fa-tint", color="blue",
-                            style_class="awesome-marker-icon-blue"),
-        'Transect': dict(feature_type="Transect", icon="fa-area-chart", color="cadetblue",
-                         style_class="awesome-marker-icon-cadetblue"),
-        'Profile': dict(feature_type="Profile", icon="fa-database", color="purple",
-             style_class="awesome-marker-icon-purple"),
-        'Specimen': dict(feature_type="Specimen", icon="fa-flask", color="cadetblue",
-                         style_class="awesome-marker-icon-cadetblue")
-    }
-""" END SAMPLING FEATURE TYPE LEGEND MAPPING """
-
-"""################Configurações odm2admin################"""
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -243,5 +150,22 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
+ALLOWED_HOSTS = ['127.0.0.1']
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+#E-mail
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = 'admin@django.com'
+
+#auth
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_URL = 'logout'
+#AUTH_USER_MODEL = ''
