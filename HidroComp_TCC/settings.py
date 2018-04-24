@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #myapps
+    'core',
+
     #libs
     'widget_tweaks',
     'betterforms',
