@@ -36,14 +36,32 @@
                 <li>
                     <a href="{% url 'index' %}">Home</a>
                 </li>
-                <li>
-                    <a href="#">Annual Maximum</a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" id="download">Annual Maximum<span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="download">
+                        <li><a href="#">Create Serie</a></li>
+                        <li><a href="#">Recorrência</a></li>
+                        <li><a href="#">Hidrograma</a></li>
+                    </ul>
                 </li>
-                <li>
-                    <a href="{% url 'parcial:parcial' %}">POT</a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" id="download">Peaks Over Threshold<span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="download">
+                        <li><a href="{% url 'results' %}">Create Serie</a></li>
+                        <li><a href="#">Recorrência</a></li>
+                        <li><a href="#">Hidrograma</a></li>
+                    </ul>
                 </li>
-                <li>
-                    <a href="{% url 'results' %}">Data</a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" id="download">Add Data<span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="download">
+                        <li><a href="{% url 'results' %}">Time Serie</a></li>
+                        <li><a href="{% url 'variables' %}">Variables</a></li>
+                        <li><a href="{% url 'units' %}">Units</a></li>
+                    </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
