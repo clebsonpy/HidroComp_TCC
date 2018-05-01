@@ -2,7 +2,7 @@ __author__ = 'tonycastronova'
 
 import os, sys
 from os.path import join, dirname, basename
-import base
+import build_schemas.base
 import translator
 import xml.etree.ElementTree as et
 from optparse import OptionParser

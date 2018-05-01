@@ -13,16 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.conf.urls import url, include
-#from django.urls import path, re_path
+from django.conf.urls import url
 
-from ajax_select import views as ajax_select_views
-from core import views
+from . import views
 
 urlpatterns = [
-    url('admin/', admin.site.urls),
-    url(r'^lookups/(?P<channel>[-\w]+)$', ajax_select_views.ajax_lookup,name='ajax_lookup'),
-    url(r'^$', views.index, name='index'),
-    url('parcial/', include('parcial.urls'))
+    url(r'', views.parcial, name='parcial'),
 ]

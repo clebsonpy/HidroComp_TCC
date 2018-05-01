@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     #myapps
     'core',
+    'parcial',
 
     #libs
     'widget_tweaks',
