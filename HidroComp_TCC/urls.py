@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import url, include
-#from django.urls import path, re_path
 
 from ajax_select import views as ajax_select_views
 from core import views
@@ -24,5 +23,6 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^lookups/(?P<channel>[-\w]+)$', ajax_select_views.ajax_lookup,name='ajax_lookup'),
     url(r'^$', views.index, name='index'),
-    url('parcial/', include('parcial.urls'))
+    url('parcial/', include('parcial.urls')),
+    url('dados/', include('core.urls'))
 ]

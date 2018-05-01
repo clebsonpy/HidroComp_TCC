@@ -1,7 +1,4 @@
 from django.views.generic import CreateView, TemplateView, DetailView
-from django.shortcuts import render
-
-
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
