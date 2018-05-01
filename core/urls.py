@@ -16,7 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 
 from . import views
+#from odm2admin import views
+
+
 
 urlpatterns = [
-    url(r'', views.results, name='results'),
+    url(r'resultado/', views.results, name='results'),
+    url(r'unidades/', views.units, name='units'),
+    url(r'variaveis/', views.variables, name='variables')
 ]

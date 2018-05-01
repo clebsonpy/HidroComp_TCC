@@ -2,16 +2,22 @@
 {% load static %}
 <html lang="en">
 <head>
+
 	<meta charset="utf-8">
 	<title>{% block title %}HidroComp{% endblock %}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<link rel="stylesheet" href="{% static 'assets/bootstrap.min.css' %}"
+	type="text/css" media="all"/>
+
+    <link rel="stylesheet" href="{% static 'ajax_select/css/ajax_select.css' %}"
 	media="screen" />
 	<link rel="stylesheet" href="{% static 'assets/custom.min.css' %}"
 	media="screen" />
-
     <link rel="stylesheet" type="text/css" href="{% static 'assets/extra.css' %}">
+
+    <script type="text/javascript" src= {% static "ajax_select/js/bootstrap.js" %}></script>
+    <script type="text/javascript" src="{% static 'ajax_select/js/ajax_select.js' %}"></script>
 
 </head>
 <body>
@@ -35,7 +41,7 @@
               <a href="#">Máximas Anuais</a>
             </li>
             <li>
-              <a href="{% url 'parcial' %}">Parciais</a>
+              <a href="{% url 'parcial:parcial' %}">Parciais</a>
             </li>
             <li>
               <a href="{% url 'results' %}">Dados</a>
@@ -43,7 +49,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
 			{% if user.is_authenticated %}
-			    <li><a>Olá, {{ user }}</a></li>
+			    <li><a>Olá, {{ user.first_name }}</a></li>
 			    <li><a href="#">Sair</a></li>
 			{% else %}
 				<li><a href="#">Entrar</a></li>

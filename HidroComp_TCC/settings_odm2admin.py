@@ -94,3 +94,4 @@ LEGEND_MAP = {
                          style_class="awesome-marker-icon-cadetblue")
     }
 """ END SAMPLING FEATURE TYPE LEGEND MAPPING """
+

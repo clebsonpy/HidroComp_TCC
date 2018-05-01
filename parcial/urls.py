@@ -17,6 +17,8 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = 'parcial'
+
 urlpatterns = [
     url(r'', views.parcial, name='parcial'),
 ]
