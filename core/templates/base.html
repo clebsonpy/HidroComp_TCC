@@ -2,18 +2,17 @@
 {% load static %}
 <html lang="en">
 <head>
-
-	<meta charset="utf-8">
-	<title>{% block title %}HidroComp{% endblock %}</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<link rel="stylesheet" href="{% static 'assets/bootstrap.min.css' %}"
-	type="text/css" media="all"/>
+    <meta charset="utf-8">
+    <title>{% block title %}HidroComp{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap.min.css' %}"
+          type="text/css" media="all"/>
 
     <link rel="stylesheet" href="{% static 'ajax_select/css/ajax_select.css' %}"
-	media="screen" />
-	<link rel="stylesheet" href="{% static 'assets/custom.min.css' %}"
-	media="screen" />
+          media="screen"/>
+    <link rel="stylesheet" href="{% static 'assets/custom.min.css' %}"
+          media="screen"/>
     <link rel="stylesheet" type="text/css" href="{% static 'assets/extra.css' %}">
 
     <script type="text/javascript" src= {% static "ajax_select/js/bootstrap.js" %}></script>
@@ -21,56 +20,56 @@
 
 </head>
 <body>
-    <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
         <div class="navbar-header">
-          <a href="{% url 'index' %}" class="navbar-brand">HidroComp</a>
-          <button class="navbar-toggle" type="button" data-toggle="collapse"
-					data-target="#navbar-main">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+            <a href="{% url 'index' %}" class="navbar-brand">HidroComp</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse"
+                    data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav">
-            <li>
-              <a href="{% url 'index' %}">Início</a>
-            </li>
-            <li>
-              <a href="#">Máximas Anuais</a>
-            </li>
-            <li>
-              <a href="{% url 'parcial:parcial' %}">Parciais</a>
-            </li>
-            <li>
-              <a href="{% url 'results' %}">Dados</a>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-			{% if user.is_authenticated %}
-			    <li><a>Olá, {{ user.first_name }}</a></li>
-			    <li><a href="#">Sair</a></li>
-			{% else %}
-				<li><a href="#">Entrar</a></li>
-			{% endif %}
-          </ul>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="{% url 'index' %}">Início</a>
+                </li>
+                <li>
+                    <a href="#">Máximas Anuais</a>
+                </li>
+                <li>
+                    <a href="{% url 'parcial:parcial' %}">Parciais</a>
+                </li>
+                <li>
+                    <a href="{% url 'results' %}">Dados</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li><a>Olá, {{ user.first_name }}</a></li>
+                    <li><a href="#">Sair</a></li>
+                {% else %}
+                    <li><a href="#">Entrar</a></li>
+                {% endif %}
+            </ul>
         </div>
-      </div>
     </div>
-    <div class="container" style="margin-top: 2em;">
-      {% block container %}{% endblock %}
-		<footer>
-			<div class="row">
-			  <div class="col-lg-12">
-			    <ul class="list-unstyled">
-			      <li class="pull-right"><a href="#top">Voltar ao Topo</a></li>
-			      <li><a href="{% url 'index' %}">Início</a></li>
-			    </ul>
-			  </div>
-			</div>
-		</footer>
-	</div>
-    <script src="{% static 'assets/bootstrap.min.js' %}"></script>
+</div>
+<div class="container" style="margin-top: 2em;">
+    {% block container %}{% endblock %}
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Voltar ao Topo</a></li>
+                    <li><a href="{% url 'index' %}">Início</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+<script src="{% static 'assets/bootstrap.min.js' %}"></script>
 </body>
 </html>
