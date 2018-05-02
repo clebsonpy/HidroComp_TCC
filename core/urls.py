@@ -21,9 +21,13 @@ app_name = 'dados'
 
 urlpatterns = [
     url(r'index/', views.results_index, name='index'),
-    url(r'caracteristicas/', views.feature, name='caracteristicas'),
-    url(r'resultado/', views.results, name='results'),
-    url(r'unidades/', views.units, name='units'),
-    url(r'variaveis/', views.variables, name='variables'),
+    url(r'sampling_feature/', views.sampling_feature, name='samplingfeature'),
+    url(r'methods/', views.methods, name='methods'),
+    url(r'actions/', views.actions, name='actions'),
+    url(r'feature/', views.feature, name='feature'),
+    url(r'results/', views.results, name='results'),
+    url(r'units/', views.units, name='units'),
+    url(r'processing_level', views.processing_level, name='processinglevel'),
+    url(r'variables/', views.variables, name='variables'),
     url(r'time_serie/', views.time_series, name='time_serie')
 ]

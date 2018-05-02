@@ -20,74 +20,7 @@ class SamplingFeaturesForm(forms.ModelForm):
 
     class Meta:
         model = Samplingfeatures
-        fields = ['sampling_feature_type', 'samplingfeaturecode']
-
-
-class ActionsForm(ActionsAdminForm):
-
-    actiondescription = None
-
-    class Meta:
-        model = Actions
-        fields = ['begindatetime', 'begindatetimeutcoffset','action_type']
-
-
-class MethodsForm(MethodsAdminForm):
-
-    methoddescription = None
-
-    class Meta:
-        model = Methods
-        fields = ['methodtypecv', 'methodname', 'methodcode']
-
-
-class FeatureActionsForm(FeatureactionsAdminForm):
-
-    class Meta:
-        model = Featureactions
-        exclude = ['action', 'samplingfeatureid']
-
-
-class FeatureActionsMultiForm(MultiModelForm):
-
-    form_classes = {'actions': ActionsForm, 'methods': MethodsForm,
-                    'sampling_feature': SamplingFeaturesForm,
-                    'feature_actions': FeatureActionsForm}
-
-
-    def save(self, commit=True):
-        objects = super(FeatureActionsMultiForm, self).save(commit=False)
-
-        if commit:
-            sampling_feature = objects['sampling_feature']
-            sampling_feature.save()
-            methods = objects['methods']
-            methods.save()
-            actions = objects['actions']
-            actions.methods = methods
-            actions.save()
-            feature_actions = objects['feature_actions']
-            feature_actions.sampling_feature = sampling_feature
-            feature_actions.actions = actions
-            feature_actions.save()
-
-        return objects
-
-
-class VariablesForm(VariablesAdminForm):
-
-    variabledefinition = None
-
-    class Meta:
-        model = Variables
-        exclude = ['variabledefinition']
-
-
-class UnitsForm(UnitsAdminForm):
-
-    class Meta:
-        model = Units
-        exclude = ['unitslink']
+        fields = '__all__'
 
 
 class ResultsForm(ResultsAdminForm):
@@ -98,16 +31,16 @@ class ResultsForm(ResultsAdminForm):
                    'resultdatetimeutcoffset', 'validdatetimeutcoffset']
 
 
-class ProcessinglevelsForm(ProcessingLevelsAdminForm):
+class FeatureForm(forms.ModelForm):
 
     class Meta:
-        model = Processinglevels
-        fields = ['processinglevelcode']
+        model = Featureactions
+        fields = '__all__'
 
 
 class ResultsMultiForm(MultiModelForm):
 
-    form_classes = {'results': ResultsForm, 'processing': ProcessinglevelsForm}
+    form_classes = {'results': ResultsForm}
 
     def save(self, commit=True):
         objects = super(ResultsMultiForm, self).save(commit=False)

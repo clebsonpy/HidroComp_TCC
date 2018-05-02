@@ -18,8 +18,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.css" type="text/css" media="all" rel="stylesheet">
     <link href="{% static 'gis/css/ol3.css' %}" type="text/css" media="all" rel="stylesheet">
 
-    <script type="text/javascript" src= {% static "ajax_select/js/bootstrap.js" %}></script>
-    <script type="text/javascript" src="{% static 'ajax_select/js/ajax_select.js' %}"></script>
+    <script type="text/javascript" src= "{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+    <script type="text/javascript" src= "{% static 'ajax_select/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src= "{% static 'ajax_select/js/ajax_select.js' %}"></script>
+    <script type="text/javascript" src= "{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+    <script type="text/javascript" src= "{% static 'admin/js/calendar.js' %}" ></script>
+    <script type="text/javascript" src= "{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+
 <body>
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -42,8 +47,8 @@
                             class="caret"></span></a>
                     <ul class="dropdown-menu" aria-labelledby="download">
                         <li><a href="#">Create Serie</a></li>
-                        <li><a href="#">Recorrência</a></li>
-                        <li><a href="#">Hidrograma</a></li>
+                        <li><a href="#">Recurrence</a></li>
+                        <li><a href="#">Hydrogram</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -51,18 +56,12 @@
                             class="caret"></span></a>
                     <ul class="dropdown-menu" aria-labelledby="download">
                         <li><a href="{% url 'parcial:parcial' %}">Create Serie</a></li>
-                        <li><a href="#">Recorrência</a></li>
-                        <li><a href="#">Hidrograma</a></li>
+                        <li><a href="#">Recurrence</a></li>
+                        <li><a href="#">Hydrogram</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" id="download">Add Data<span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu" aria-labelledby="download">
-                        <li><a href="{% url 'dados:index' %}">Time Serie</a></li>
-                        <li><a href="{% url 'dados:variables' %}">Variables</a></li>
-                        <li><a href="{% url 'dados:units' %}">Units</a></li>
-                    </ul>
+                <li>
+                    <a href="{% url 'dados:index' %}">Add Data</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
