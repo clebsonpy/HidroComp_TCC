@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^lookups/(?P<channel>[-\w]+)$', ajax_select_views.ajax_lookup,name='ajax_lookup'),
     url(r'^$', views.index, name='index'),
     url('parcial/', include('parcial.urls'), name='parcial'),
-    url('dados/', include('core.urls'))
+    url('dados/', include('core.urls'), name='dados')
 ]

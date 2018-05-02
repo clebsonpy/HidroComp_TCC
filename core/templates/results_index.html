@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}Add Historical Series | {{ block.super }}{% endblock %}
+
+{% block container %}
+    <div class="container col-md-12">
+        <div class="btn-group btn-group-justified">
+            <a href="{% url 'dados:caracteristicas' %}"
+                class="btn btn-primary">Feature Actions</a>
+            <a href="{% url 'dados:results' %}"
+                class="btn btn-primary">Results</a>
+            <a href="#"
+                class="btn btn-primary">Time Serie</a>
+        </div>
+    </div>
+    {% block results_container %}{% endblock %}
+{% endblock %}

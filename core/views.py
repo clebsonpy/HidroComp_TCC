@@ -1,13 +1,15 @@
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
 
-from odm2admin.models import (Results, Units, Variables, Timeseriesresults)
+from odm2admin.models import (Results, Units, Variables, Samplingfeatures,
+                              Actions, Methods, Featureactions)
 
 from odm2admin.forms import (ResultsAdminForm, VariablesAdminForm, UnitsAdminForm,
                              TimeseriesresultsAdminForm, TimeseriesresultvaluesAdminForm,
                              RelatedresultsAdminForm)
 
-from .forms import ResultsMultiForm, UnitsForm, VariablesForm
+from .forms import (ResultsMultiForm, UnitsForm, VariablesForm, SamplingFeaturesForm,
+                    ActionsForm, MethodsForm, FeatureActionsForm, FeatureActionsMultiForm)
 
 
 class IndexView(TemplateView):
@@ -15,11 +17,16 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
 
+class ResultsIndexView(TemplateView):
+
+    template_name = 'results_index.html'
+
+
 class ResultsFormView(CreateView):
 
     model = Results
     template_name = 'results.html'
-    form_class = ResultsMultiForm
+    form_class = ResultsAdminForm
     success_url = reverse_lazy('index')
 
 
@@ -39,7 +46,17 @@ class UnitsView(CreateView):
     success_url = reverse_lazy('index')
 
 
+class FeatureActionsView(CreateView):
+
+    model = Featureactions
+    template_name = 'feature_actions.html'
+    form_class = FeatureActionsMultiForm
+    success_url = reverse_lazy('dados:index')
+
+
 index = IndexView.as_view()
+results_index = ResultsIndexView.as_view()
+feature = FeatureActionsView.as_view()
 results = ResultsFormView.as_view()
 variables = VariablesView.as_view()
 units = UnitsView.as_view()
