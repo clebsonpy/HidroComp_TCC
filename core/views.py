@@ -1,16 +1,13 @@
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
 
-from odm2admin.models import (Results, Units, Variables, Samplingfeatures,
-                              Actions, Methods, Featureactions)
+from odm2admin.models import (Results, Units, Variables, Featureactions,
+                              Timeseriesresultvalues)
 
-from odm2admin.forms import (ResultsAdminForm, VariablesAdminForm, UnitsAdminForm,
-                             TimeseriesresultsAdminForm, TimeseriesresultvaluesAdminForm,
-                             RelatedresultsAdminForm)
+from odm2admin.forms import (VariablesAdminForm, UnitsAdminForm,
+                             TimeseriesresultvaluesAdminForm)
 
-from .forms import (ResultsMultiForm, UnitsForm, VariablesForm, SamplingFeaturesForm,
-                    ActionsForm, MethodsForm, FeatureActionsForm, FeatureActionsMultiForm,
-                    ResultsForm)
+from .forms import (ResultsMultiForm, FeatureActionsMultiForm)
 
 
 class IndexView(TemplateView):
@@ -55,9 +52,18 @@ class FeatureActionsView(CreateView):
     success_url = reverse_lazy('dados:index')
 
 
+class TimeSerieResultsView(CreateView):
+
+    model = Timeseriesresultvalues
+    form_class = TimeseriesresultvaluesAdminForm
+    template_name = 'time_series.html'
+    success_url = reverse_lazy('dados:index')
+
+
 index = IndexView.as_view()
 results_index = ResultsIndexView.as_view()
 feature = FeatureActionsView.as_view()
 results = ResultsFormView.as_view()
 variables = VariablesView.as_view()
 units = UnitsView.as_view()
+time_series = TimeSerieResultsView.as_view()

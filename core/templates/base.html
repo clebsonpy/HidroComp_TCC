@@ -68,9 +68,9 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                     <li><a>Hi, {{ user.first_name }}</a></li>
-                    <li><a href="#">Sign out</a></li>
+                    <li><a href="{% url 'sing_out' %}">Sign out</a></li>
                 {% else %}
-                    <li><a href="#">Sign in</a></li>
+                    <li><a href="{% url 'sing_in' %}">Sign in</a></li>
                 {% endif %}
             </ul>
         </div>

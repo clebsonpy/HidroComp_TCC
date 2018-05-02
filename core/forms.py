@@ -7,7 +7,8 @@ from odm2admin.models import (Results, Units, Variables, Processinglevels,
 
 from odm2admin.forms import (UnitsAdminForm, ResultsAdminForm, VariablesAdminForm,
                              ProcessingLevelsAdminForm, FeatureactionsAdminForm,
-                             ActionsAdminForm, MethodsAdminForm)
+                             ActionsAdminForm, MethodsAdminForm,
+                             TimeseriesresultvaluesAdminForm)
 
 from betterforms.multiform import MultiModelForm
 
@@ -114,3 +115,8 @@ class ResultsMultiForm(MultiModelForm):
             results.save()
 
         return objects
+
+
+class TimeSeriesResultsForm(TimeseriesresultvaluesAdminForm):
+
+    pass

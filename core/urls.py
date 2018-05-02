@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'caracteristicas/', views.feature, name='caracteristicas'),
     url(r'resultado/', views.results, name='results'),
     url(r'unidades/', views.units, name='units'),
-    url(r'variaveis/', views.variables, name='variables')
+    url(r'variaveis/', views.variables, name='variables'),
+    url(r'time_serie/', views.time_series, name='time_serie')
 ]

@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.contrib.auth.views import login, logout
 from django.contrib import admin
 from django.conf.urls import url, include
 
@@ -24,5 +25,8 @@ urlpatterns = [
     url(r'^lookups/(?P<channel>[-\w]+)$', ajax_select_views.ajax_lookup,name='ajax_lookup'),
     url(r'^$', views.index, name='index'),
     url('parcial/', include('parcial.urls'), name='parcial'),
-    url('dados/', include('core.urls'), name='dados')
+    url('dados/', include('core.urls'), name='dados'),
+    url(r'^entrar/$', login, {'template_name':'sign_in.html'}, name='sing_in'),
+    url(r'^sair/$', logout, {'next_page':'index'}, name='sing_out'),
+
 ]
