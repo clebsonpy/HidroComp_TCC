@@ -101,8 +101,7 @@ class ProcessinglevelsForm(ProcessingLevelsAdminForm):
 
 class ResultsMultiForm(MultiModelForm):
 
-    form_classes = {'results': ResultsForm, 'units': UnitsForm,
-                    'variables': VariablesForm, 'processing': ProcessinglevelsForm}
+    form_classes = {'results': ResultsForm, 'processing': ProcessinglevelsForm}
 
     def save(self, commit=True):
         objects = super(ResultsMultiForm, self).save(commit=False)
@@ -110,14 +109,8 @@ class ResultsMultiForm(MultiModelForm):
         if commit:
             processing = objects['processing']
             processing.save()
-            units = objects['units']
-            units.save()
-            variables = objects['variables']
-            variables.save()
             results = objects['results']
             results.processing = processing
-            results.units = units
-            results.variables = variables
             results.save()
 
         return objects

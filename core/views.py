@@ -27,7 +27,7 @@ class ResultsFormView(CreateView):
 
     model = Results
     template_name = 'results.html'
-    form_class = ResultsForm
+    form_class = ResultsMultiForm
     success_url = reverse_lazy('index')
 
 
