@@ -45,9 +45,11 @@ class FeatureActionsForm(FeatureactionsAdminForm):
 
 
 class FeatureActionsMultiForm(MultiModelForm):
+
     form_classes = {'actions': ActionsForm, 'methods': MethodsForm,
                     'sampling_feature': SamplingFeaturesForm,
                     'feature_actions': FeatureActionsForm}
+
 
     def save(self, commit=True):
         objects = super(FeatureActionsMultiForm, self).save(commit=False)
@@ -86,8 +88,8 @@ class ResultsForm(ResultsAdminForm):
 
     class Meta:
         model = Results
-        exclude = ['unitsid', 'variableid', 'taxonomicclassifierid',
-                   'statuscv', 'processing_level']
+        exclude = ['taxonomicclassifierid', 'resultdatetime', 'validdatetime',
+                   'resultdatetimeutcoffset', 'validdatetimeutcoffset']
 
 
 class ProcessinglevelsForm(ProcessingLevelsAdminForm):

@@ -9,7 +9,8 @@ from odm2admin.forms import (ResultsAdminForm, VariablesAdminForm, UnitsAdminFor
                              RelatedresultsAdminForm)
 
 from .forms import (ResultsMultiForm, UnitsForm, VariablesForm, SamplingFeaturesForm,
-                    ActionsForm, MethodsForm, FeatureActionsForm, FeatureActionsMultiForm)
+                    ActionsForm, MethodsForm, FeatureActionsForm, FeatureActionsMultiForm,
+                    ResultsForm)
 
 
 class IndexView(TemplateView):
@@ -26,7 +27,7 @@ class ResultsFormView(CreateView):
 
     model = Results
     template_name = 'results.html'
-    form_class = ResultsAdminForm
+    form_class = ResultsForm
     success_url = reverse_lazy('index')
 
 
