@@ -25,13 +25,16 @@ class SamplingFeaturesForm(forms.ModelForm):
 
 class ActionsForm(ActionsAdminForm):
 
+    actiondescription = None
+
     class Meta:
         model = Actions
-        exclude = ['actiondescription', 'enddatetime', 'enddatetimeutcoffset',
-                   'method', 'actionfilelink']
+        fields = ['begindatetime', 'begindatetimeutcoffset','action_type']
 
 
 class MethodsForm(MethodsAdminForm):
+
+    methoddescription = None
 
     class Meta:
         model = Methods
@@ -72,6 +75,8 @@ class FeatureActionsMultiForm(MultiModelForm):
 
 
 class VariablesForm(VariablesAdminForm):
+
+    variabledefinition = None
 
     class Meta:
         model = Variables
