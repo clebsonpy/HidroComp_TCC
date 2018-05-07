@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-
+{% load widget_tweaks %}
 
 {% block container %}
     <div class="row">
@@ -44,7 +44,25 @@
                 <div class="page-header">
                     <h2>{% block title %}{% endblock %}</h2>
                 </div>
-                {% block data_container %}{% endblock %}
+                <div class="page-header">
+                    <form class="form-horizontal" method="post">
+                        {% csrf_token %}
+                        <fieldset>
+                            {% for field in form %}
+                                <div class="form-group">
+
+                                    <label for="{{ field.auto_id }}" class="col-md-3 control-label">
+                                        {{ field.label }}
+                                    </label>
+                                    <div class="col-md-9">
+                                        {{ field|add_class:'form-control' }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            {% block botao %}{% endblock %}
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
