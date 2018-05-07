@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'units/', views.units, name='units'),
     url(r'processing_level', views.processing_level, name='processinglevel'),
     url(r'variables/', views.variables, name='variables'),
+    url(r'organizations/', views.organizations, name='organizations'),
     url(r'time_serie/', views.time_series, name='time_serie')
 ]

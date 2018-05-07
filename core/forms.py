@@ -1,14 +1,13 @@
 from django import forms
+from collections import OrderedDict
 
 from ajax_select import make_ajax_field
 
-from odm2admin.models import (Results, Units, Variables, Processinglevels,
-                              Samplingfeatures, Actions, Methods, Featureactions)
+from odm2admin.models import (Results, Samplingfeatures, Featureactions,
+                              Timeseriesresults, Timeseriesresultvalues, Organizations)
 
-from odm2admin.forms import (UnitsAdminForm, ResultsAdminForm, VariablesAdminForm,
-                             ProcessingLevelsAdminForm, FeatureactionsAdminForm,
-                             ActionsAdminForm, MethodsAdminForm,
-                             TimeseriesresultvaluesAdminForm)
+from odm2admin.forms import (ResultsAdminForm, TimeseriesresultvaluesAdminForm,
+                             TimeseriesresultsAdminForm, OrganizationsAdminForm)
 
 from betterforms.multiform import MultiModelForm
 
@@ -55,5 +54,45 @@ class ResultsMultiForm(MultiModelForm):
         return objects
 
 
-class TimeSeriesResultsForm(TimeseriesresultvaluesAdminForm):
-    pass
+class TimeSeriesResultsForm(TimeseriesresultsAdminForm):
+
+    def __init__(self, *args, **kwargs):
+        super(TimeSeriesResultsForm, self).__init__(*args, **kwargs)
+        self.fields['aggregationstatisticcv'].label = 'Aggregation Statistic'
+
+    class Meta:
+        model = Timeseriesresults
+        fields = ['aggregationstatisticcv', 'intendedtimespacing',
+                  'resultid', 'intendedtimespacingunitsid',
+                  'spatialreferenceid']
+
+
+class TimeResultsSeriesValuesForm(TimeseriesresultvaluesAdminForm, forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(TimeResultsSeriesValuesForm, self).__init__(*args, **kwargs)
+        self.fields['valuedatetimeutcoffset'].label = 'Value UTC'
+        self.fields['censorcodecv'].label = 'Censor Code'
+        self.fields['qualitycodecv'].label = 'Quality Code'
+        self.fields['File'] = forms.FileField()
+
+    class Meta:
+        model = Timeseriesresultvalues
+        exclude = ['datavalue', 'valuedatetime']
+        ordering = ['valuedatetimeutcoffset', 'censorcodecv',
+                    'qualitycodecv', 'File']
+
+
+class TimeResultsSeriesValuesMultiForm(MultiModelForm):
+
+    form_classes = OrderedDict((
+        ('time_results', TimeSeriesResultsForm),
+        ('time_series_results', TimeResultsSeriesValuesForm)))
+
+
+class OrganizationsForm(OrganizationsAdminForm):
+
+    class Meta:
+        model = Organizations
+        fields = ['organizationcode', 'organizationname',
+                  'organizationtypecv', 'parentorganizationid']

@@ -1,15 +1,16 @@
+from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
 
 from odm2admin.models import (Results, Units, Variables, Featureactions,
                               Timeseriesresultvalues, Samplingfeatures, Actions,
-                              Methods, Processinglevels)
+                              Methods, Processinglevels, Organizations)
 
 from odm2admin.forms import (VariablesAdminForm, UnitsAdminForm, ActionsAdminForm,
-                             TimeseriesresultvaluesAdminForm, FeatureactionsAdminForm,
                              MethodsAdminForm, ProcessingLevelsAdminForm)
 
-from .forms import (ResultsMultiForm, SamplingFeaturesForm, FeatureForm)
+from .forms import (SamplingFeaturesForm, FeatureForm, ResultsMultiForm,
+                    TimeResultsSeriesValuesMultiForm, OrganizationsForm)
 
 
 class IndexView(TemplateView):
@@ -45,6 +46,9 @@ class UnitsView(CreateView):
     form_class = UnitsAdminForm
     success_url = reverse_lazy('index')
 
+    def post(self, request, *args, **kwargs):
+        pass
+
 
 class ActionsView(CreateView):
 
@@ -54,12 +58,23 @@ class ActionsView(CreateView):
     success_url = reverse_lazy('dados:index')
 
 
-class TimeSerieResultsView(CreateView):
+class TimeSerieResultsValuesView(CreateView):
 
     model = Timeseriesresultvalues
-    form_class = TimeseriesresultvaluesAdminForm
+    form_class = TimeResultsSeriesValuesMultiForm
     template_name = 'time_series.html'
     success_url = reverse_lazy('dados:index')
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+    def form_valid(self, form):
+        time_results = form['time_results'].save()
+        time_series_results = form['time_series_results'].save(commit=False)
+
+        time_series_results.time_results = time_results
+        time_series_results.save()
+        return redirect(self.get_success_url())
 
 
 class SamplingFeatureView(CreateView):
@@ -94,6 +109,14 @@ class FeatureActionsView(CreateView):
     success_url = reverse_lazy('dados:index')
 
 
+class OrganizationsView(CreateView):
+
+    model = Organizations
+    form_class = OrganizationsForm
+    template_name = 'organizations.html'
+    success_url = 'dados:index'
+
+
 index = IndexView.as_view()
 results_index = ResultsIndexView.as_view()
 actions = ActionsView.as_view()
@@ -104,4 +127,5 @@ processing_level = ProcessingLevesView.as_view()
 results = ResultsFormView.as_view()
 variables = VariablesView.as_view()
 units = UnitsView.as_view()
-time_series = TimeSerieResultsView.as_view()
+organizations = OrganizationsView.as_view()
+time_series = TimeSerieResultsValuesView.as_view()

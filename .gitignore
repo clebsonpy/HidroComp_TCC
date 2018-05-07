@@ -2,4 +2,3 @@
 *.sqlite3
 venv/
 *.pyc
-*.cpython-35.pyc
