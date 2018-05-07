@@ -56,5 +56,4 @@ class ResultsMultiForm(MultiModelForm):
 
 
 class TimeSeriesResultsForm(TimeseriesresultvaluesAdminForm):
-
     pass
