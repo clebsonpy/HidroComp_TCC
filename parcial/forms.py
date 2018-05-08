@@ -11,7 +11,7 @@ class ParcialForm(forms.Form):
     value_threshold = forms.FloatField(label='Threshold Value')
     type_criterion = forms.CharField(label='Criterion', max_length='50')
     type_event = forms.CharField(label='Event', max_length=25)
-    duration = forms.IntegerField(label='Duration Eetween Events', required=False)
+    duration = forms.IntegerField(label='Duration Between Events', required=False)
 
     def __init__(self, *args, **kwargs):
         super(ParcialForm, self).__init__(*args, **kwargs)
