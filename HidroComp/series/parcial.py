@@ -1,13 +1,8 @@
 import pandas as pd
 import math
 import scipy.stats as stat
-import plotly as plot
 import plotly.plotly as py
-import colorlover as cl
 
-from HidroComp.comparasion.rmse import RMSE
-from HidroComp.comparasion.mae import MAE
-from HidroComp.comparasion.genpareto import BootsGenPareto
 from HidroComp.graphics.genpareto import GenPareto
 from HidroComp.graphics.hydrogram_parcial import HydrogramParcial
 from HidroComp.graphics.boxplot import Boxplot

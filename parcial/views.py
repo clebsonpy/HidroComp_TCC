@@ -1,8 +1,7 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView, DetailView, FormView
+from django.views.generic import FormView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from HidroComp.series.vazao import Vazao
 from django.views import View
 
 from .forms import ParcialForm
@@ -20,9 +19,6 @@ class ParcialFormView(FormView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        path = "/home/clebson/Documentos/Projetos/HidroComp1_8"
-        dados = Vazao(path=path, font='ONS')
-        print(dados.data)
         if form.is_valid():
             return HttpResponseRedirect(self.success_url)
 

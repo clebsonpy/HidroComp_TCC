@@ -1,8 +1,5 @@
 import plotly as py
 import plotly.graph_objs as go
-import plotly.figure_factory as FF
-import colorlover as cl
-import cufflinks as cf
 
 from HidroComp.graphics.hydrogram_biuld import HydrogramBiuld
 

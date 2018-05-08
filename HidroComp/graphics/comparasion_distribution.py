@@ -1,12 +1,9 @@
 import plotly as plot
 import plotly.plotly as py
 import plotly.graph_objs as go
-import plotly.figure_factory as FF
-import colorlover as cl
-import cufflinks as cf
 
 
-class Comparation_Distribution(object):
+class Comparasion_Distribution(object):
 
     def __init__(self, figs, type_function, name):
         self.figs = figs

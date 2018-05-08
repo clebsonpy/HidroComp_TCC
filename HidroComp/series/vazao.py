@@ -1,8 +1,6 @@
 import os
 import calendar as cal
 
-import pandas as pd
-
 from HidroComp.series.series_biuld import Series
 from HidroComp.series.parcial import Parcial
 from HidroComp.series.maximum import Maximum

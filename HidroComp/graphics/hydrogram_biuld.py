@@ -1,5 +1,3 @@
-import pandas as pd
-
 import plotly.graph_objs as go
 
 from abc import ABCMeta, abstractmethod

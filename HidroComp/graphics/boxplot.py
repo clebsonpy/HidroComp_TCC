@@ -1,6 +1,4 @@
-import pandas as pd
 import plotly as py
-import plotly.plotly as save
 import plotly.graph_objs as go
 
 class Boxplot(object):
