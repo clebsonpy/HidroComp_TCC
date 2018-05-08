@@ -29,7 +29,7 @@ class ResultsFormView(CreateView):
     model = Results
     template_name = 'results.html'
     form_class = ResultsForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('dados:time_serie')
 
 
 class VariablesView(CreateView):
@@ -37,7 +37,7 @@ class VariablesView(CreateView):
     model = Variables
     template_name = 'variables.html'
     form_class = VariablesAdminForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('dados:units')
 
 
 class UnitsView(CreateView):
@@ -45,7 +45,7 @@ class UnitsView(CreateView):
     model = Units
     template_name = 'units.html'
     form_class = UnitsAdminForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('dados:processinglevel')
 
 
 class ActionsView(CreateView):
@@ -53,7 +53,7 @@ class ActionsView(CreateView):
     model = Actions
     template_name = 'actions.html'
     form_class = ActionsAdminForm
-    success_url = reverse_lazy('dados:index')
+    success_url = reverse_lazy('dados:feature')
 
 
 class TimeSerieResultsValuesView(CreateView):
@@ -80,7 +80,7 @@ class SamplingFeatureView(CreateView):
     model = Samplingfeatures
     form_class = SamplingFeaturesForm
     template_name = 'sampling_feature.html'
-    success_url = reverse_lazy('dados:index')
+    success_url = reverse_lazy('dados:methods')
 
 
 class MethodsView(CreateView):
@@ -88,7 +88,7 @@ class MethodsView(CreateView):
     model = Methods
     form_class = MethodsAdminForm
     template_name = 'methods.html'
-    success_url = reverse_lazy('dados:index')
+    success_url = reverse_lazy('dados:actions')
 
 
 class ProcessingLevesView(CreateView):
@@ -96,7 +96,7 @@ class ProcessingLevesView(CreateView):
     model = Processinglevels
     form_class = ProcessingLevelsAdminForm
     template_name = 'processing_leves.html'
-    success_url = reverse_lazy('dados:index')
+    success_url = reverse_lazy('dados:results')
 
 
 class FeatureActionsView(CreateView):
@@ -104,7 +104,7 @@ class FeatureActionsView(CreateView):
     model = Featureactions
     form_class = FeatureForm
     template_name = 'feature.html'
-    success_url = reverse_lazy('dados:index')
+    success_url = reverse_lazy('dados:variables')
 
 
 class OrganizationsView(CreateView):
