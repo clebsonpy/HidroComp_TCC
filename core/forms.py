@@ -19,7 +19,7 @@ class SamplingFeaturesForm(forms.ModelForm):
 
     class Meta:
         model = Samplingfeatures
-        fields = '__all__'
+        fields = ['samplingfeaturecode', 'sampling_feature_type', 'samplingfeaturename']
 
 
 class ResultsForm(ResultsAdminForm):
@@ -35,23 +35,6 @@ class FeatureForm(forms.ModelForm):
     class Meta:
         model = Featureactions
         fields = '__all__'
-
-
-class ResultsMultiForm(MultiModelForm):
-
-    form_classes = {'results': ResultsForm}
-
-    def save(self, commit=True):
-        objects = super(ResultsMultiForm, self).save(commit=False)
-
-        if commit:
-            processing = objects['processing']
-            processing.save()
-            results = objects['results']
-            results.processing = processing
-            results.save()
-
-        return objects
 
 
 class TimeSeriesResultsForm(TimeseriesresultsAdminForm):

@@ -9,8 +9,9 @@ from odm2admin.models import (Results, Units, Variables, Featureactions,
 from odm2admin.forms import (VariablesAdminForm, UnitsAdminForm, ActionsAdminForm,
                              MethodsAdminForm, ProcessingLevelsAdminForm)
 
-from .forms import (SamplingFeaturesForm, FeatureForm, ResultsMultiForm,
-                    TimeResultsSeriesValuesMultiForm, OrganizationsForm)
+from core.forms import ResultsForm
+from .forms import (SamplingFeaturesForm, FeatureForm, OrganizationsForm,
+                    TimeResultsSeriesValuesMultiForm)
 
 
 class IndexView(TemplateView):
@@ -27,7 +28,7 @@ class ResultsFormView(CreateView):
 
     model = Results
     template_name = 'results.html'
-    form_class = ResultsMultiForm
+    form_class = ResultsForm
     success_url = reverse_lazy('index')
 
 
@@ -45,9 +46,6 @@ class UnitsView(CreateView):
     template_name = 'units.html'
     form_class = UnitsAdminForm
     success_url = reverse_lazy('index')
-
-    def post(self, request, *args, **kwargs):
-        pass
 
 
 class ActionsView(CreateView):
@@ -114,7 +112,7 @@ class OrganizationsView(CreateView):
     model = Organizations
     form_class = OrganizationsForm
     template_name = 'organizations.html'
-    success_url = 'dados:index'
+    success_url = reverse_lazy('dados:samplingfeature')
 
 
 index = IndexView.as_view()
