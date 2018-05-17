@@ -45,9 +45,7 @@ class TimeSeriesResultsForm(TimeseriesresultsAdminForm):
 
     class Meta:
         model = Timeseriesresults
-        fields = ['aggregationstatisticcv', 'intendedtimespacing',
-                  'resultid', 'intendedtimespacingunitsid',
-                  'spatialreferenceid']
+        fields = ['aggregationstatisticcv', 'resultid']
 
 
 class TimeResultsSeriesValuesForm(TimeseriesresultvaluesAdminForm, forms.Form):
@@ -61,7 +59,7 @@ class TimeResultsSeriesValuesForm(TimeseriesresultvaluesAdminForm, forms.Form):
 
     class Meta:
         model = Timeseriesresultvalues
-        exclude = ['datavalue', 'valuedatetime']
+        exclude = ['datavalue', 'valuedatetime', 'resultid']
         ordering = ['valuedatetimeutcoffset', 'censorcodecv',
                     'qualitycodecv', 'File']
 

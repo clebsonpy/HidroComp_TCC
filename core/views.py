@@ -64,15 +64,17 @@ class TimeSerieResultsValuesView(CreateView):
     success_url = reverse_lazy('dados:index')
 
     def post(self, request, *args, **kwargs):
-        pass
+        self.form_valid(request.POST)
+        return redirect(self.success_url)
 
     def form_valid(self, form):
-        time_results = form['time_results'].save()
-        time_series_results = form['time_series_results'].save(commit=False)
 
-        time_series_results.time_results = time_results
-        time_series_results.save()
-        return redirect(self.get_success_url())
+        #time_series_results = form['time_series_results'].save(commit=False)
+        print(form)
+
+        #time_series_results.time_results = time_results
+        #time_series_results.save()
+        return redirect(self.success_url)
 
 
 class SamplingFeatureView(CreateView):
