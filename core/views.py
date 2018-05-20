@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
+import pandas as pd
 
 from odm2admin.models import (Results, Units, Variables, Featureactions,
                               Timeseriesresultvalues, Samplingfeatures, Actions,
@@ -29,7 +30,7 @@ class ResultsView(CreateView):
     model = Results
     template_name = 'results.html'
     form_class = ResultsForm
-    success_url = reverse_lazy('dados:time_results')
+    success_url = reverse_lazy('dados:time_serie_result')
 
 
 class VariablesView(CreateView):
@@ -61,19 +62,17 @@ class TimeSerieResultsValuesView(CreateView):
     model = Timeseriesresultvalues
     form_class = TimeResultsSeriesValuesForm
     template_name = 'time_series.html'
-    success_url = reverse_lazy('dados:index')
+    success_url = reverse_lazy('index')
 
     def post(self, request, *args, **kwargs):
-        self.form_valid(request.POST)
+        print(request.POST)
+        dados = pd.read_csv(request.FILES['File'])
+        for i in dados:
+            print(i)
         return redirect(self.success_url)
 
     def form_valid(self, form):
-
-        #time_series_results = form['time_series_results'].save(commit=False)
-        print(form)
-
-        #time_series_results.time_results = time_results
-        #time_series_results.save()
+        print(form.FILES)
         return redirect(self.success_url)
 
 
