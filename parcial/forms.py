@@ -1,16 +1,33 @@
 from django import forms
 
+from odm2admin.models import Results
+
 
 class ParcialForm(forms.Form):
+    type_threshold_choices = (
+        ('1', 'stationary'),
+        ('2', 'events_by_year'))
 
-    station = forms.CharField(label='Station', max_length=25)
+    type_criterion_choices = (
+        ('1', 'mediana'),
+        ('2', 'xmin_maior_qmin'),
+        ('3', 'xmin_maior_dois_terco_x'))
+
+    type_event_choices = (
+        ('1', 'cheia'),
+        ('2', 'estiagem'),)
+
+    station = forms.ModelChoiceField(label='Station', queryset=Results.objects.all())
     font = forms.CharField(label='Font', max_length=25)
     date_start = forms.DateField(label='Start Date', required=False)
     date_end = forms.DateField(label='End Start', required=False)
-    type_threshold = forms.CharField(label='Threshold type', max_length=25)
+    type_threshold = forms.ChoiceField(label='Threshold type',
+                                       choices=type_threshold_choices, )
     value_threshold = forms.FloatField(label='Threshold Value')
-    type_criterion = forms.CharField(label='Criterion', max_length='50')
-    type_event = forms.CharField(label='Event', max_length=25)
+    type_criterion = forms.ChoiceField(label='Criterion',
+                                       choices=type_criterion_choices)
+    type_event = forms.ChoiceField(label='Event',
+                                   choices=type_event_choices)
     duration = forms.IntegerField(label='Duration Between Events', required=False)
 
     def __init__(self, *args, **kwargs):

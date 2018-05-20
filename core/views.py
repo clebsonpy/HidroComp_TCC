@@ -76,19 +76,19 @@ class TimeSerieResultsValuesView(CreateView):
         result = Timeseriesresults.objects.get(pk=post['resultid'])
         censor = CvCensorcode.objects.get(pk=post['censorcodecv'])
         quality = CvQualitycode.objects.get(pk=post['qualitycodecv'])
-        unitsTime = Units.objects.get(pk=post['timeaggregationintervalunitsid'])
-        timeInter = post['timeaggregationinterval']
-        valueUTC = post['valuedatetimeutcoffset']
+        units_time = Units.objects.get(pk=post['timeaggregationintervalunitsid'])
+        time_inter = post['timeaggregationinterval']
+        value_utc = post['valuedatetimeutcoffset']
 
         nAdd = []
         for i in dados.index:
             try:
                 ts = Timeseriesresultvalues(resultid=result, censorcodecv=censor,
-                                        qualitycodecv=quality, valuedatetimeutcoffset=valueUTC,
-                                        timeaggregationinterval=timeInter,
-                                        timeaggregationintervalunitsid=unitsTime,
-                                        valuedatetime=i,
-                                        datavalue=dados['XINGO'][i])
+                                            qualitycodecv=quality, valuedatetimeutcoffset=value_utc,
+                                            timeaggregationinterval=time_inter,
+                                            timeaggregationintervalunitsid=units_time,
+                                            valuedatetime=i,
+                                            datavalue=dados['XINGO'][i])
 
                 ts.save()
             except (NonExistentTimeError, AmbiguousTimeError):
