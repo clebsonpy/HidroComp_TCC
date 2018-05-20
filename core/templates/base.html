@@ -63,7 +63,11 @@
                 <li>
                     <a href="{% url 'dados:index' %}">Add Data</a>
                 </li>
+                <li>
+                    <a href="{% url '#' %}">Info Data</a>
+                </li>
             </ul>
+
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                     <li><a>Hi, {{ user.first_name }}</a></li>

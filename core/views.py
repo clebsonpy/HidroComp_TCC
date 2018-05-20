@@ -1,14 +1,17 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
+from django.core.files.uploadedfile import UploadedFile
+
 import pandas as pd
 
 from odm2admin.models import (Results, Units, Variables, Featureactions,
                               Timeseriesresultvalues, Samplingfeatures, Actions,
-                              Methods, Processinglevels, Organizations, Timeseriesresults)
+                              Methods, Processinglevels, Organizations, Timeseriesresults, CvCensorcode, CvQualitycode)
 
 from odm2admin.forms import (VariablesAdminForm, UnitsAdminForm, ActionsAdminForm,
                              MethodsAdminForm, ProcessingLevelsAdminForm)
+from pytz import NonExistentTimeError, AmbiguousTimeError
 
 from core.forms import ResultsForm
 from .forms import (SamplingFeaturesForm, FeatureForm, OrganizationsForm,
@@ -65,14 +68,32 @@ class TimeSerieResultsValuesView(CreateView):
     success_url = reverse_lazy('index')
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
-        dados = pd.read_csv(request.FILES['File'])
-        for i in dados:
-            print(i)
-        return redirect(self.success_url)
+        file = request.FILES['File']
+        dados = pd.read_csv(file, index_col=0, names=["Data", "XINGO"],
+                            parse_dates=True)
+        print(len(dados))
+        post = request.POST
+        result = Timeseriesresults.objects.get(pk=post['resultid'])
+        censor = CvCensorcode.objects.get(pk=post['censorcodecv'])
+        quality = CvQualitycode.objects.get(pk=post['qualitycodecv'])
+        unitsTime = Units.objects.get(pk=post['timeaggregationintervalunitsid'])
+        timeInter = post['timeaggregationinterval']
+        valueUTC = post['valuedatetimeutcoffset']
 
-    def form_valid(self, form):
-        print(form.FILES)
+        nAdd = []
+        for i in dados.index:
+            try:
+                ts = Timeseriesresultvalues(resultid=result, censorcodecv=censor,
+                                        qualitycodecv=quality, valuedatetimeutcoffset=valueUTC,
+                                        timeaggregationinterval=timeInter,
+                                        timeaggregationintervalunitsid=unitsTime,
+                                        valuedatetime=i,
+                                        datavalue=dados['XINGO'][i])
+
+                ts.save()
+            except (NonExistentTimeError, AmbiguousTimeError):
+                nAdd.append(ts)
+
         return redirect(self.success_url)
 
 

@@ -36,7 +36,7 @@ ALLOWED_HOSTS = []
 BASE_URL = ''
 CUSTOM_TEMPLATE_PATH = '/{}{}/'.format(BASE_URL, APP_NAME)
 
-
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 # Application definition
 
 INSTALLED_APPS = [
