@@ -1,5 +1,4 @@
 from django import forms
-from collections import OrderedDict
 
 from ajax_select import make_ajax_field
 
@@ -8,8 +7,6 @@ from odm2admin.models import (Results, Samplingfeatures, Featureactions,
 
 from odm2admin.forms import (ResultsAdminForm, TimeseriesresultvaluesAdminForm,
                              TimeseriesresultsAdminForm, OrganizationsAdminForm)
-
-from betterforms.multiform import MultiModelForm
 
 
 class SamplingFeaturesForm(forms.ModelForm):
@@ -62,13 +59,6 @@ class TimeResultsSeriesValuesForm(TimeseriesresultvaluesAdminForm, forms.Form):
         exclude = ['datavalue', 'valuedatetime', 'resultid']
         ordering = ['valuedatetimeutcoffset', 'censorcodecv',
                     'qualitycodecv', 'File']
-
-
-class TimeResultsSeriesValuesMultiForm(MultiModelForm):
-
-    form_classes = OrderedDict((
-        ('time_results', TimeSeriesResultsForm),
-        ('time_series_results', TimeResultsSeriesValuesForm)))
 
 
 class OrganizationsForm(OrganizationsAdminForm):

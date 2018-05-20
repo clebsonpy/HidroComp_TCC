@@ -4,14 +4,14 @@ from django.urls import reverse_lazy
 
 from odm2admin.models import (Results, Units, Variables, Featureactions,
                               Timeseriesresultvalues, Samplingfeatures, Actions,
-                              Methods, Processinglevels, Organizations)
+                              Methods, Processinglevels, Organizations, Timeseriesresults)
 
 from odm2admin.forms import (VariablesAdminForm, UnitsAdminForm, ActionsAdminForm,
                              MethodsAdminForm, ProcessingLevelsAdminForm)
 
 from core.forms import ResultsForm
 from .forms import (SamplingFeaturesForm, FeatureForm, OrganizationsForm,
-                    TimeResultsSeriesValuesMultiForm)
+                    TimeResultsSeriesValuesForm, TimeSeriesResultsForm)
 
 
 class IndexView(TemplateView):
@@ -24,12 +24,12 @@ class ResultsIndexView(TemplateView):
     template_name = 'data_index.html'
 
 
-class ResultsFormView(CreateView):
+class ResultsView(CreateView):
 
     model = Results
     template_name = 'results.html'
     form_class = ResultsForm
-    success_url = reverse_lazy('dados:time_serie')
+    success_url = reverse_lazy('dados:time_results')
 
 
 class VariablesView(CreateView):
@@ -59,7 +59,7 @@ class ActionsView(CreateView):
 class TimeSerieResultsValuesView(CreateView):
 
     model = Timeseriesresultvalues
-    form_class = TimeResultsSeriesValuesMultiForm
+    form_class = TimeResultsSeriesValuesForm
     template_name = 'time_series.html'
     success_url = reverse_lazy('dados:index')
 
@@ -117,6 +117,14 @@ class OrganizationsView(CreateView):
     success_url = reverse_lazy('dados:samplingfeature')
 
 
+class TimeSeriesResultsView(CreateView):
+
+    model = Timeseriesresults
+    form_class = TimeSeriesResultsForm
+    template_name = 'time_series_results.html'
+    success_url = reverse_lazy('index')
+
+
 index = IndexView.as_view()
 results_index = ResultsIndexView.as_view()
 actions = ActionsView.as_view()
@@ -124,8 +132,9 @@ sampling_feature = SamplingFeatureView.as_view()
 feature = FeatureActionsView.as_view()
 methods = MethodsView.as_view()
 processing_level = ProcessingLevesView.as_view()
-results = ResultsFormView.as_view()
+results = ResultsView.as_view()
 variables = VariablesView.as_view()
 units = UnitsView.as_view()
 organizations = OrganizationsView.as_view()
 time_series = TimeSerieResultsValuesView.as_view()
+time_serie_result = TimeSeriesResultsView.as_view()
