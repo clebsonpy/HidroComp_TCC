@@ -29,6 +29,7 @@ class ParcialForm(forms.Form):
     type_event = forms.ChoiceField(label='Event',
                                    choices=type_event_choices)
     duration = forms.IntegerField(label='Duration Between Events', required=False)
+    return_time = forms.FloatField(label='Return Time', required=True)
 
     def __init__(self, *args, **kwargs):
         super(ParcialForm, self).__init__(*args, **kwargs)

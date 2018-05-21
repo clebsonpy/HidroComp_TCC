@@ -11,7 +11,7 @@ from HidroComp.graphics.boxplot import Boxplot
 class Parcial(object):
 
     distribution = 'GP'
-    __percentil = 0.8
+    __percentil = 0.87495
     dic_name = {'stationary': 'Percentil', 'events_by_year': 'Eventos por Ano',
                 'autocorrelação': 'Autocorrelacao'}
 
@@ -393,7 +393,7 @@ class Parcial(object):
             return mag
 
     def __magnitudes(self, tempo_de_retorno, name=None):
-        #dic_magns = {0.001:[], 0.01:[], 0.1:[], 0.5:[], 0.9:[], 0.99:[], 0.999:[]}
+
         if name is None:
             name = self.name
 
@@ -444,6 +444,7 @@ class Parcial(object):
                 aux_name = title.replace(' ', '_')
                 py.image.save_as(fig, filename='gráficos/'+'%s.png' % aux_name)
 
+            return fig
         except AttributeError:
             self.event_peaks()
             self.plot_hydrogram(title)

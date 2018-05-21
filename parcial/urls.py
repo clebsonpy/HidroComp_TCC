@@ -21,5 +21,4 @@ app_name = 'parcial'
 
 urlpatterns = [
     url(r'create/', views.parcial, name='create_parcial'),
-    url(r'index/', views.index, name='index')
 ]

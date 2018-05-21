@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block container %}
+    {% if graphs %}
+        <div style="width:600;height:500">
+            {{ graphs|safe }}
+        </div>
+    {% endif %}
+<div class="jumbotron page-header">
+    <h3>Return Time</h3>
+    <p>{{ return_time }} anos</p>
+    <h3>Magnitde</h3>
+    <p>{{ return_magn }} m³/s</p>
+</div>
+{% endblock %}

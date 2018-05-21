@@ -1,8 +1,11 @@
+from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views import View
+from django.views.generic import FormView, TemplateView, CreateView
 from django.shortcuts import render, redirect
 
 import pandas as pd
+import plotly.offline as opy
 from HidroComp.series.vazao import Vazao
 
 from .forms import ParcialForm
@@ -13,7 +16,7 @@ class ParcialFormView(FormView):
 
     form_class = ParcialForm
     template_name = 'parcial/parcial.html'
-    success_url = reverse_lazy('parcial:index')
+    success_url = reverse_lazy('parcial:hydrogram')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -43,15 +46,15 @@ class ParcialFormView(FormView):
                                 value_threshold=float(post['value_threshold']),
                                 duration=float(post['duration']))
 
+        return_magn = parcial.magnitude(float(post['return_time']))
 
-        print(parcial.event_peaks())
-        return redirect(self.success_url)
-
-
-class SerieParcialView(TemplateView):
-
-    template_name = 'parcial/parcial_index.html'
+        fig = parcial.plot_hydrogram('Parcial')
+        div = opy.plot(fig, auto_open=False, output_type='div')
+        context = {'return_magn': return_magn,
+                   'return_time': post['return_time'],
+                   'graphs': div
+                   }
+        return render(request, 'parcial/parcial_result.html', context)
 
 
 parcial = ParcialFormView.as_view()
-index = SerieParcialView.as_view()
