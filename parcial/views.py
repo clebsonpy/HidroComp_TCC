@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 import pandas as pd
 import plotly.offline as opy
 from HidroComp.series.vazao import Vazao
+from parcial.forms import MaximasForm
 
 from .forms import ParcialForm
 from odm2admin.models import Timeseriesresultvalues
@@ -16,7 +17,6 @@ class ParcialFormView(FormView):
 
     form_class = ParcialForm
     template_name = 'parcial/parcial.html'
-    success_url = reverse_lazy('parcial:hydrogram')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -54,7 +54,44 @@ class ParcialFormView(FormView):
                    'return_time': post['return_time'],
                    'graphs': div
                    }
-        return render(request, 'parcial/parcial_result.html', context)
+        return render(request, 'parcial/serie_result.html', context)
+
+
+class MaximaFormView(FormView):
+
+    form_class = MaximasForm
+    template_name = 'parcial/maximas.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        post = request.POST
+        time_serie = Timeseriesresultvalues.objects.filter(resultid=post['station']).values_list('datavalue',
+                                                                                                 'valuedatetime')
+        dic = {'Data': [], post['font']: []}
+        for i in time_serie:
+            dic['Data'].append(i[1])
+            dic[post['font']].append(i[0])
+
+        data = pd.DataFrame(dic, index=dic['Data'], columns=[post['font']])
+        serie = Vazao(data=data, font=post['font'])
+        if post['date_start'] != '':
+            serie.date(date_start=post['date_start'], date_end=post['date_end'])
+
+        maxima = serie.maximum(post['font'])
+
+        return_magn = maxima.magnitude(float(post['return_time']))
+
+        fig = maxima.plot_hydrogram()
+        div = opy.plot(fig, auto_open=False, output_type='div')
+        context = {'return_magn': return_magn,
+                   'return_time': post['return_time'],
+                   'graphs': div
+                   }
+        return render(request, 'parcial/serie_result.html', context)
 
 
 parcial = ParcialFormView.as_view()
+maximas = MaximaFormView.as_view()

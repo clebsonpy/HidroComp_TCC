@@ -17,8 +17,9 @@ from django.conf.urls import url
 
 from . import views
 
-app_name = 'parcial'
+app_name = 'series'
 
 urlpatterns = [
-    url(r'create/', views.parcial, name='create_parcial'),
+    url(r'create_parcial/', views.parcial, name='create_parcial'),
+    url(r'create_maxima/', views.maximas, name='create_maxima'),
 ]

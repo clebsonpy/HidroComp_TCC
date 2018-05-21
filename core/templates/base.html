@@ -42,17 +42,11 @@
                 <li>
                     <a href="{% url 'index' %}">Home</a>
                 </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" id="download">Annual Maximum<span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu" aria-labelledby="download">
-                        <li><a href="#">Create Serie</a></li>
-                        <li><a href="#">Recurrence</a></li>
-                        <li><a href="#">Hydrogram</a></li>
-                    </ul>
+                <li>
+                    <a href="{% url 'series:create_maxima' %}">Annual Maximums</a>
                 </li>
                 <li>
-                    <a href="{% url 'parcial:create_parcial' %}">Peaks Over Threshold</a>
+                    <a href="{% url 'series:create_parcial' %}">Peaks Over Threshold</a>
                 </li>
                 <li>
                     <a href="{% url 'dados:index' %}">Add Data</a>

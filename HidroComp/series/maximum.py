@@ -30,8 +30,8 @@ class Maximum(object):
         try:
             peaks = self.peaks.copy()
             mom = distr.gev.lmom_fit(peaks['Vazao'].values)
-            para = [mom['c'], mom['loc'], mom['scale']]
-            return para
+            self.para = [mom['c'], mom['loc'], mom['scale']]
+            return self.para
         except AttributeError:
             self.annual()
             return self.mml()
@@ -42,12 +42,38 @@ class Maximum(object):
             peaks = np.sort(peaks)
             peaks = np.delete(peaks, obj=-1)
             print(peaks)
-            para = stat.genextreme.fit(sorted(peaks))
-            return para
+            self.para = stat.genextreme.fit(sorted(peaks))
+            return self.para
         except AttributeError:
             self.annual()
             return self.mvs()
-            #self.para = stat.genextreme.fit(self.peaks['Vazao'].values)
+
+    def magnitude(self, tempo_de_retorno):
+        try:
+            if type(tempo_de_retorno) is list:
+                raise TypeError
+            try:
+                prob = 1-(1/tempo_de_retorno)
+                mag = stat.genextreme.ppf(prob, self.para[0], self.para[1],
+                                          self.para[2])
+                return mag
+
+            except AttributeError:
+                self.mml()
+                return self.magnitude(tempo_de_retorno)
+        except TypeError:
+            mag = self.__magnitudes(tempo_de_retorno)
+            return mag
+
+    def __magnitudes(self, tempo_de_retorno):
+
+        magns = []
+        for tempo in tempo_de_retorno:
+            mag = self.magnitude(tempo)
+
+            magns.append(mag)
+
+        return pd.Series(magns, index=tempo_de_retorno, name='Maxima')
 
     def plot_distribution(self, title, estimador, type_function):
         if estimador == 'mvs':
@@ -66,7 +92,7 @@ class Maximum(object):
         self.annual()
         hydrogrm = HydrogramAnnual(data=self.data[self.station],
                                    peaks=self.peaks)
-        data, fig = hydrogrm.plot()
-        py.image.save_as(fig, filename='gráficos/hidrogama_maximas_anuais.png')
+        fig = hydrogrm.plot()
+        #py.image.save_as(fig, filename='gráficos/hidrogama_maximas_anuais.png')
 
-        return data, fig
+        return fig

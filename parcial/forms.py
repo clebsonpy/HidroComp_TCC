@@ -11,7 +11,8 @@ class ParcialForm(forms.Form):
     type_criterion_choices = (
         ('1', 'mediana'),
         ('2', 'xmin_maior_qmin'),
-        ('3', 'xmin_maior_dois_terco_x'))
+        ('3', 'xmin_maior_dois_terco_x'),
+        ('4', 'autocorrelação'))
 
     type_event_choices = (
         ('1', 'cheia'),
@@ -33,3 +34,15 @@ class ParcialForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(ParcialForm, self).__init__(*args, **kwargs)
+
+
+class MaximasForm(forms.Form):
+
+    station = forms.ModelChoiceField(label='Station', queryset=Results.objects.all())
+    font = forms.CharField(label='Font', max_length=25)
+    date_start = forms.DateField(label='Start Date', required=False)
+    date_end = forms.DateField(label='End Start', required=False)
+    return_time = forms.FloatField(label='Return Time', required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(MaximasForm, self).__init__(*args, **kwargs)

@@ -23,10 +23,10 @@ class HydrogramAnnual(HydrogramBiuld):
         name = 'Hidrograma Máximas Anuais'
         layout = dict(
             title = "Hidrograma Série Máximas Anuais",
-            width=1890, height=827,
+            width=1150, height=650,
             xaxis=bandxaxis,
             yaxis=bandyaxis,
-            font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
+            font=dict(family='Time New Roman', size=12, color='rgb(0,0,0)'))
 
         data = []
         data.append(self._plot_one(self.data))
@@ -34,9 +34,9 @@ class HydrogramAnnual(HydrogramBiuld):
 
         aux_name = name.replace(' - ', '_')
         aux_name2 = aux_name.replace(' ', '_')
-        fig = dict(data=data, layout=layout)
-        py.offline.plot(fig, filename='gráficos/'+ aux_name2 +'.html')
-        return data, fig
+        fig = go.Figure(data=data, layout=layout)
+        #py.offline.plot(fig, filename='gráficos/'+ aux_name2 +'.html')
+        return fig
 
     def _plot_event_peaks(self):
         point_vazao = go.Scatter(x=self.peaks.index,
