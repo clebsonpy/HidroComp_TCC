@@ -1,15 +1,14 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views import View
-from django.views.generic import FormView, TemplateView, CreateView
-from django.shortcuts import render, redirect
+from django.views.generic import FormView
+from django.shortcuts import render, redirect, render_to_response
+from django.template import loader
 
 import pandas as pd
 import plotly.offline as opy
 from HidroComp.series.vazao import Vazao
-from parcial.forms import MaximasForm
 
-from .forms import ParcialForm
+from .forms import ParcialForm, MaximasForm, SeriesResultsForm
 from odm2admin.models import Timeseriesresultvalues
 
 
@@ -17,6 +16,7 @@ class ParcialFormView(FormView):
 
     form_class = ParcialForm
     template_name = 'parcial/parcial.html'
+    success_url = reverse_lazy('series:results')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -24,7 +24,8 @@ class ParcialFormView(FormView):
 
     def post(self, request, *args, **kwargs):
         post = request.POST
-        time_serie = Timeseriesresultvalues.objects.filter(resultid=post['station']).values_list('datavalue', 'valuedatetime')
+        time_serie = Timeseriesresultvalues.objects.filter(
+            resultid=post['station']).values_list('datavalue', 'valuedatetime')
         dic = {'Data': [], post['source']: []}
         for i in time_serie:
             dic['Data'].append(i[1])
@@ -54,13 +55,14 @@ class ParcialFormView(FormView):
                    'return_time': post['return_time'],
                    'graphs': div
                    }
-        return render(request, 'parcial/serie_result.html', context)
+        return HttpResponse(render(request, context))
 
 
 class MaximaFormView(FormView):
 
     form_class = MaximasForm
     template_name = 'parcial/maximas.html'
+    success_url = reverse_lazy('series:results')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -68,8 +70,8 @@ class MaximaFormView(FormView):
 
     def post(self, request, *args, **kwargs):
         post = request.POST
-        time_serie = Timeseriesresultvalues.objects.filter(resultid=post['station']).values_list('datavalue',
-                                                                                                 'valuedatetime')
+        time_serie = Timeseriesresultvalues.objects.filter(
+            resultid=post['station']).values_list('datavalue', 'valuedatetime')
         dic = {'Data': [], post['source']: []}
         for i in time_serie:
             dic['Data'].append(i[1])
@@ -82,16 +84,28 @@ class MaximaFormView(FormView):
 
         maxima = serie.maximum(post['source'])
 
-        return_magn = maxima.magnitude(float(post['return_time']))
+        request.COOKIES['serie'] = maxima
+        #return_magn = maxima.magnitude(float(post['return_time']))
 
         data, fig = maxima.plot_hydrogram()
         div = opy.plot(data, auto_open=False, output_type='div')
-        context = {'return_magn': return_magn,
-                   'return_time': post['return_time'],
-                   'graphs': div
-                   }
-        return render(request, 'parcial/serie_result.html', context)
+        context = {'graphs': div,
+                   'form': SeriesResultsForm}
+        return render(request, 'parcial/serie_result.html', context=context)
 
+
+class SeriesResultsView(FormView):
+
+    form_class = SeriesResultsForm
+    template_name = 'parcial/serie_result.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        pass
 
 parcial = ParcialFormView.as_view()
 maximas = MaximaFormView.as_view()
+results = SeriesResultsView.as_view()

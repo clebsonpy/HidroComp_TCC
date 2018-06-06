@@ -30,7 +30,7 @@ class ParcialForm(forms.Form):
     type_event = forms.ChoiceField(label='Event',
                                    choices=type_event_choices)
     duration = forms.IntegerField(label='Duration Between Events', required=False)
-    return_time = forms.FloatField(label='Return Time', required=True)
+    #return_time = forms.FloatField(label='Return Time', required=True)
 
     def __init__(self, *args, **kwargs):
         super(ParcialForm, self).__init__(*args, **kwargs)
@@ -42,7 +42,15 @@ class MaximasForm(forms.Form):
     source = forms.CharField(label='Source', max_length=25)
     date_start = forms.DateField(label='Start Date', required=False)
     date_end = forms.DateField(label='End Date', required=False)
-    return_time = forms.FloatField(label='Return Time', required=True)
+    #return_time = forms.FloatField(label='Return Time', required=True)
 
     def __init__(self, *args, **kwargs):
         super(MaximasForm, self).__init__(*args, **kwargs)
+
+
+class SeriesResultsForm(forms.Form):
+
+    return_period = forms.FloatField(label='Return Period', required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(SeriesResultsForm, self).__init__(*args, **kwargs)

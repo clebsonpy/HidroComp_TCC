@@ -22,4 +22,5 @@ app_name = 'series'
 urlpatterns = [
     url(r'create_parcial/', views.parcial, name='create_parcial'),
     url(r'create_maxima/', views.maximas, name='create_maxima'),
+    url(r'results/', views.results, name='results'),
 ]

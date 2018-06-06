@@ -3,15 +3,42 @@
 {% load widget_tweaks %}
 
 {% block container %}
-    {% if graphs %}
-        <div style="width:600;height:500">
-            {{ graphs|safe }}
+{% if graphs %}
+    <div style="width:600;height:500">
+        {{ graphs|safe }}
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="col-md-10 col-md-offset-0">
+                <div class="page-header">
+                    <h3>Return Period</h3>
+                </div>
+                <div class="page-header">
+                    <fieldset>
+                        {% for field in form %}
+                            <div class="form-group">
+                                <div class="col-md-9">
+                                    {{ field|add_class:'form-control' }}
+                                </div>
+                                <div class="col-md-offset-3">
+                                    <button type="submit" class="btn btn-primary">Magnitude</button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+                </div>
+            </div>
         </div>
-    {% endif %}
-<div class="jumbotron page-header">
-    <h3>Return Time</h3>
-    <p>{{ return_time }} anos</p>
-    <h3>Magnitde</h3>
-    <p>{{ return_magn }} m³/s</p>
-</div>
+        <div class="col-lg-6">
+            <div class="col-md-10 col-md-offset-0">
+                <div class="page-header">
+                    <h3>Magnitude</h3>
+                </div>
+                <div class="page-header">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
 {% endblock %}
