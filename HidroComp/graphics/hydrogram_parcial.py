@@ -31,10 +31,10 @@ class HydrogramParcial(HydrogramBiuld):
             layout = dict(
                 title = name,
                 showlegend=True,
-                width=1150, height=650,
+                width=1890, height=827,
                 xaxis=bandxaxis,
                 yaxis=bandyaxis,
-                font=dict(family='Time New Roman', size=12, color='rgb(0,0,0)'))
+                font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
 
             data = []
             data.append(self._plot_one(self.data))
@@ -44,29 +44,29 @@ class HydrogramParcial(HydrogramBiuld):
 
             aux_name = name.replace(' - ', '_')
             aux_name2 = aux_name.replace(' ', '_')
-            fig = go.Figure(data=data, layout=layout)
+            fig = dict(data=data, layout=layout)
             #py.offline.plot(fig, filename='gráficos/'+ aux_name2 +'.html')
-            return fig
+            return fig, data
         except AttributeError:
             name = 'Hidrograma Série de Duração Parcial -  %s' % self.title
             layout = dict(
                 title=name,
                 showlegend=True,
-                width=1150, height=650,
+                width=1890, height=827,
                 xaxis=bandxaxis,
                 yaxis=bandyaxis,
-                font=dict(family='Time New Roman', size=12, color='rgb(0,0,0)'))
+                font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
 
             data = []
             data.append(self._plot_one(self.data))
             data.append(self._plot_threshold())
             data += self._plot_event_peaks()
 
-            aux_name = name.replace(' - ', '_')
-            aux_name2 = aux_name.replace(' ', '_')
-            fig = go.Figure(data=data, layout=layout)
+            #aux_name = name.replace(' - ', '_')
+            #aux_name2 = aux_name.replace(' ', '_')
+            fig = dict(data=data, layout=layout)
             #py.offline.plot(fig, filename='gráficos/'+ aux_name2 +'.html')
-            return fig
+            return fig, data
 
     def _plot_event_peaks(self):
         point_start = go.Scatter(x=self.peaks.Inicio,
@@ -103,7 +103,7 @@ class HydrogramParcial(HydrogramBiuld):
         trace_threshold = go.Scatter(x=self.data.index,
             y=[self.threshold]*len(self.data),
             name = "Limiar",
-            line =  dict(color = ('rgb(128, 128, 128)'),
+            line = dict(color = ('rgb(128, 128, 128)'),
                         width = 1.5,
                         dash = 'dot'))
 

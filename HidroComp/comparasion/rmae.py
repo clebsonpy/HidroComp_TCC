@@ -1,7 +1,7 @@
 import pandas as pd
 
-from HidroComp.comparasion.mae import MAE
-from HidroComp.comparasion.quantify_uncertainty import QuantifyUncertainty
+from comparasion.mae import MAE
+from comparasion.quantify_uncertainty import QuantifyUncertainty
 
 
 class RMAE(QuantifyUncertainty):

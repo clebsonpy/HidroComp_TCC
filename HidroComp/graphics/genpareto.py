@@ -31,8 +31,8 @@ class GenPareto(DistributionBiuld):
                       font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
 
         fig = dict(data=data_fig, layout=layout)
-        name_graphic = 'GP_Acumulada_%s' % self.title
-        py.offline.plot(fig, filename='gráficos/'+ name_graphic + '.html')
+        #name_graphic = 'GP_Acumulada_%s' % self.title
+        #py.offline.plot(fig, filename='gráficos/'+ name_graphic + '.html')
 
         return data, fig
 
@@ -55,8 +55,8 @@ class GenPareto(DistributionBiuld):
                       font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
 
         fig = dict(data=data_fig, layout=layout)
-        name_graphic = 'GP_Densidade_%s' % self.title
-        py.offline.plot(fig, filename='gráficos/'+ name_graphic + '.html')
+        #name_graphic = 'GP_Densidade_%s' % self.title
+        #py.offline.plot(fig, filename='gráficos/'+ name_graphic + '.html')
 
         return data, fig
 

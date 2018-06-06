@@ -21,7 +21,7 @@ class Ana(FileRead):
 
     typesData = {'FLUVIOMÉTRICO': 'Vazao01',
                  'PLUVIOMÉTRICO': 'Chuva01'}
-    font = "ANA"
+    source = "ANA"
     extension = "TXT"
 
     def __init__(self, path=os.getcwd(), type_data='FLUVIOMÉTRICO', consistencia=2):

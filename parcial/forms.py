@@ -19,9 +19,9 @@ class ParcialForm(forms.Form):
         ('2', 'estiagem'),)
 
     station = forms.ModelChoiceField(label='Station', queryset=Results.objects.all())
-    font = forms.CharField(label='Font', max_length=25)
+    source = forms.CharField(label='Source', max_length=25)
     date_start = forms.DateField(label='Start Date', required=False)
-    date_end = forms.DateField(label='End Start', required=False)
+    date_end = forms.DateField(label='End Date', required=False)
     type_threshold = forms.ChoiceField(label='Threshold type',
                                        choices=type_threshold_choices, )
     value_threshold = forms.FloatField(label='Threshold Value')
@@ -39,9 +39,9 @@ class ParcialForm(forms.Form):
 class MaximasForm(forms.Form):
 
     station = forms.ModelChoiceField(label='Station', queryset=Results.objects.all())
-    font = forms.CharField(label='Font', max_length=25)
+    source = forms.CharField(label='Source', max_length=25)
     date_start = forms.DateField(label='Start Date', required=False)
-    date_end = forms.DateField(label='End Start', required=False)
+    date_end = forms.DateField(label='End Date', required=False)
     return_time = forms.FloatField(label='Return Time', required=True)
 
     def __init__(self, *args, **kwargs):

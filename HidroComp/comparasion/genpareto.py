@@ -1,7 +1,7 @@
 from scipy.stats import genpareto
 import pandas as pd
 
-from HidroComp.comparasion.bootstrap_build import BootstrapBuild
+from comparasion.bootstrap_build import BootstrapBuild
 
 
 class BootsGenPareto(BootstrapBuild):

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from HidroComp.comparasion.quantify_uncertainty import QuantifyUncertainty
+from comparasion.quantify_uncertainty import QuantifyUncertainty
 
 
 class RMSE(QuantifyUncertainty):

@@ -1,6 +1,8 @@
 import os
 import calendar as cal
 
+import pandas as pd
+
 from HidroComp.series.series_biuld import Series
 from HidroComp.series.parcial import Parcial
 from HidroComp.series.maximum import Maximum
@@ -11,8 +13,8 @@ class Vazao(Series):
 
     type_data = 'FLUVIOMÉTRICO'
 
-    def __init__(self, data=None, path=os.getcwd(), font=None):
-        super().__init__(data, path, font, type_data=self.type_data)
+    def __init__(self, data=None, path=os.getcwd(), source=None):
+        super().__init__(data, path, source, type_data=self.type_data)
 
     def month_start_year_hydrologic(self, station):
         mean_month = [self.data[station].loc[self.data.index.month == i].mean()

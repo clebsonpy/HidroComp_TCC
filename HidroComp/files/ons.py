@@ -12,7 +12,7 @@ import numpy as np
 
 class Ons(FileRead):
 
-    font = "ONS"
+    source = "ONS"
     extension = "xls"
 
     def __init__(self, path=os.getcwd(), type_data='FLUVIOMÉTRICO'):

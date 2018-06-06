@@ -38,42 +38,24 @@ class Maximum(object):
 
     def mvs(self):
         try:
-            peaks = self.peaks['Vazao'].values.copy()
-            peaks = np.sort(peaks)
-            peaks = np.delete(peaks, obj=-1)
-            print(peaks)
-            self.para = stat.genextreme.fit(sorted(peaks))
+            peaks = self.peaks.copy()
+            self.para = stat.genextreme.fit(peaks['Vazao'].values)
             return self.para
         except AttributeError:
             self.annual()
             return self.mvs()
 
-    def magnitude(self, tempo_de_retorno):
-        try:
-            if type(tempo_de_retorno) is list:
-                raise TypeError
-            try:
-                prob = 1-(1/tempo_de_retorno)
-                mag = stat.genextreme.ppf(prob, self.para[0], self.para[1],
-                                          self.para[2])
-                return mag
+    def magnitude(self, period_return):
 
-            except AttributeError:
-                self.mml()
-                return self.magnitude(tempo_de_retorno)
-        except TypeError:
-            mag = self.__magnitudes(tempo_de_retorno)
+        try:
+            prob = 1-(1/period_return)
+            mag = stat.genpareto.ppf(prob, self.para[0], self.para[1],
+                                     self.para[2])
             return mag
 
-    def __magnitudes(self, tempo_de_retorno):
-
-        magns = []
-        for tempo in tempo_de_retorno:
-            mag = self.magnitude(tempo)
-
-            magns.append(mag)
-
-        return pd.Series(magns, index=tempo_de_retorno, name='Maxima')
+        except AttributeError:
+            self.mml()
+            return self.magnitude(period_return)
 
     def plot_distribution(self, title, estimador, type_function):
         if estimador == 'mvs':
@@ -84,15 +66,13 @@ class Maximum(object):
             raise ValueError
         genextreme = GenExtreme(title, para[0], para[1], para[2])
         data, fig = genextreme.plot(type_function)
-        py.image.save_as(fig, filename='gráficos/GEV_%s_%s.png' % (type_function, estimador))
-
         return data, fig
 
     def plot_hydrogram(self):
         self.annual()
         hydrogrm = HydrogramAnnual(data=self.data[self.station],
                                    peaks=self.peaks)
-        fig = hydrogrm.plot()
+        data, fig = hydrogrm.plot()
         #py.image.save_as(fig, filename='gráficos/hidrogama_maximas_anuais.png')
 
-        return fig
+        return data, fig

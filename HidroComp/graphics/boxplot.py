@@ -1,4 +1,6 @@
+import pandas as pd
 import plotly as py
+import plotly.plotly as save
 import plotly.graph_objs as go
 
 class Boxplot(object):
@@ -30,7 +32,7 @@ class Boxplot(object):
                       font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
 
         fig = dict(data=data, layout=layout)
-        py.offline.plot(fig, filename='gráficos/boxplot.html')
+        #py.offline.plot(fig, filename='gráficos/boxplot.html')
         return data, fig
 
     def plot_comparasion(self):
@@ -41,5 +43,5 @@ class Boxplot(object):
                       font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
 
         fig = dict(data=self.figs, layout=layout)
-        py.offline.plot(fig, filename='gráficos/boxplot.html')
+        #py.offline.plot(fig, filename='gráficos/boxplot.html')
         #save.image.save_as(fig, filename='gráficos/boxplot_group.png')

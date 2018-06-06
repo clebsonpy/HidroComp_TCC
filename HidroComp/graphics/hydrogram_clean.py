@@ -29,10 +29,10 @@ class HydrogramClean(HydrogramBiuld):
                 font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
 
             aux_name = name.replace(' - ', '_')
-            aux_name2 = aux_name.replace(' ', '_')
+            #aux_name2 = aux_name.replace(' ', '_')
             data = [self._plot_one(self.data)]
             fig = dict(data=data, layout=layout)
-            py.offline.plot(fig, filename='gráficos/'+ aux_name2 +'.html')
+            #py.offline.plot(fig, filename='gráficos/'+ aux_name2 +'.html')
         except AttributeError:
             name = 'Hidrograma'
             layout = dict(
@@ -42,10 +42,10 @@ class HydrogramClean(HydrogramBiuld):
                 yaxis=bandyaxis,
                 font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
 
-            aux_name = name.replace(' - ', '_')
-            aux_name2 = aux_name.replace(' ', '_')
+            #aux_name = name.replace(' - ', '_')
+            #aux_name2 = aux_name.replace(' ', '_')
             fig = dict(data=self._plot_multi(), layout=layout)
-            py.offline.plot(fig, filename='gráficos/'+ aux_name2 +'.html')
+            #py.offline.plot(fig, filename='gráficos/'+ aux_name2 +'.html')
 
     def _plot_multi(self):
         fig = []

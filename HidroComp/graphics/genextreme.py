@@ -55,8 +55,8 @@ class GenExtreme(DistributionBiuld):
                       font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
 
         fig = dict(data=data_fig, layout=layout)
-        name_graphic = 'GEV_Densidade_%s' % self.title
-        py.offline.plot(fig, filename='gráficos/'+ name_graphic + '.html')
+        #name_graphic = 'GEV_Densidade_%s' % self.title
+        #py.offline.plot(fig, filename='gráficos/'+ name_graphic + '.html')
 
         return data, fig
 
