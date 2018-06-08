@@ -1,8 +1,6 @@
-from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse_lazy
-from django.views.generic import FormView
-from django.shortcuts import render, redirect, render_to_response
-from django.template import loader
+from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
+from django.views.generic import FormView, RedirectView, TemplateView
 
 import pandas as pd
 import plotly.offline as opy
@@ -55,7 +53,7 @@ class ParcialFormView(FormView):
                    'return_time': post['return_time'],
                    'graphs': div
                    }
-        return HttpResponse(render(request, context))
+        return render(request, 'parcial/serie_result.html', context=context)
 
 
 class MaximaFormView(FormView):
@@ -68,6 +66,7 @@ class MaximaFormView(FormView):
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
 
+    """
     def post(self, request, *args, **kwargs):
         post = request.POST
         time_serie = Timeseriesresultvalues.objects.filter(
@@ -92,20 +91,49 @@ class MaximaFormView(FormView):
         context = {'graphs': div,
                    'form': SeriesResultsForm}
         return render(request, 'parcial/serie_result.html', context=context)
+    """
 
+class SerieRedirectView(RedirectView):
 
-class SeriesResultsView(FormView):
+    def get_redirect_url(self, *args, **kwargs):
+        post = self.request.POST
+        time_serie = Timeseriesresultvalues.objects.filter(
+            resultid=post['station']).values_list('datavalue', 'valuedatetime')
+        dic = {'Data': [], post['source']: []}
+        for i in time_serie:
+            dic['Data'].append(i[1])
+            dic[post['source']].append(i[0])
 
-    form_class = SeriesResultsForm
+        data = pd.DataFrame(dic, index=dic['Data'], columns=[post['source']])
+        serie = Vazao(data=data, source=post['source'])
+        if post['date_start'] != '':
+            serie.date(date_start=post['date_start'], date_end=post['date_end'])
+
+        maxima = serie.maximum(post['source'])
+
+        self.request.COOKIES['serie'] = maxima
+        # return_magn = maxima.magnitude(float(post['return_time']))
+
+        data, fig = maxima.plot_hydrogram()
+        div = opy.plot(data, auto_open=False, output_type='div')
+        self.request.COOKIES['div'] = div
+        return reverse('series:results')
+
+class SeriesResultsView(TemplateView):
+
     template_name = 'parcial/serie_result.html'
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+    def get_context_data(self, **kwargs):
+        context = super(SeriesResultsView, self).get_context_data(**kwargs)
+        context['form'] = SeriesResultsForm
+        return context
 
     def post(self, request, *args, **kwargs):
-        pass
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
+
 
 parcial = ParcialFormView.as_view()
 maximas = MaximaFormView.as_view()
+redirect = SerieRedirectView.as_view()
 results = SeriesResultsView.as_view()
