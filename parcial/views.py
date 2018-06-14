@@ -60,43 +60,17 @@ class MaximaFormView(FormView):
 
     form_class = MaximasForm
     template_name = 'parcial/maximas.html'
-    success_url = reverse_lazy('series:results')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
 
-    """
-    def post(self, request, *args, **kwargs):
-        post = request.POST
-        time_serie = Timeseriesresultvalues.objects.filter(
-            resultid=post['station']).values_list('datavalue', 'valuedatetime')
-        dic = {'Data': [], post['source']: []}
-        for i in time_serie:
-            dic['Data'].append(i[1])
-            dic[post['source']].append(i[0])
-
-        data = pd.DataFrame(dic, index=dic['Data'], columns=[post['source']])
-        serie = Vazao(data=data, source=post['source'])
-        if post['date_start'] != '':
-            serie.date(date_start=post['date_start'], date_end=post['date_end'])
-
-        maxima = serie.maximum(post['source'])
-
-        request.COOKIES['serie'] = maxima
-        #return_magn = maxima.magnitude(float(post['return_time']))
-
-        data, fig = maxima.plot_hydrogram()
-        div = opy.plot(data, auto_open=False, output_type='div')
-        context = {'graphs': div,
-                   'form': SeriesResultsForm}
-        return render(request, 'parcial/serie_result.html', context=context)
-    """
 
 class SerieRedirectView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         post = self.request.POST
+        print(self.request)
         time_serie = Timeseriesresultvalues.objects.filter(
             resultid=post['station']).values_list('datavalue', 'valuedatetime')
         dic = {'Data': [], post['source']: []}
@@ -112,12 +86,12 @@ class SerieRedirectView(RedirectView):
         maxima = serie.maximum(post['source'])
 
         self.request.COOKIES['serie'] = maxima
-        # return_magn = maxima.magnitude(float(post['return_time']))
 
         data, fig = maxima.plot_hydrogram()
         div = opy.plot(data, auto_open=False, output_type='div')
         self.request.COOKIES['div'] = div
         return reverse('series:results')
+
 
 class SeriesResultsView(TemplateView):
 
