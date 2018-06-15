@@ -29,8 +29,10 @@ class ParcialFormView(FormView):
             dic['Data'].append(i[1])
             dic[post['source']].append(i[0])
 
-        type_criterion = self.form_class.type_criterion_choices[int(post['type_criterion'])-1][1]
-        type_threshold = self.form_class.type_threshold_choices[int(post['type_threshold'])-1][1]
+        type_criterion = self.form_class.type_criterion_choices[
+            int(post['type_criterion'])-1][1]
+        type_threshold = self.form_class.type_threshold_choices[
+            int(post['type_threshold'])-1][1]
         type_event = self.form_class.type_event_choices[int(post['type_event'])-1][1]
 
         data = pd.DataFrame(dic, index=dic['Data'], columns=[post['source']])

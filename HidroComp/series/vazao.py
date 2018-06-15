@@ -18,7 +18,8 @@ class Vazao(Series):
 
     def month_start_year_hydrologic(self, station):
         mean_month = [self.data[station].loc[self.data.index.month == i].mean()
-                    for i in range(1, 13)]
+                      for i in range(1, 13)
+                      ]
         month_start_year_hydrologic = 1 + mean_month.index(min(mean_month))
         month_start_year_hydrologic_abr = cal.month_abbr[
             month_start_year_hydrologic].upper()
@@ -35,10 +36,9 @@ class Vazao(Series):
 
     def parcial(self, station, type_threshold, type_event, type_criterion,
                 value_threshold, **kwargs):
-        parcial = Parcial(obj=self, station=station,
-                               type_threshold=type_threshold, type_event=type_event,
-                               type_criterion=type_criterion,
-                               value_threshold=value_threshold, **kwargs)
+        parcial = Parcial(obj=self, station=station, type_threshold=type_threshold,
+                          type_event=type_event, type_criterion=type_criterion,
+                          value_threshold=value_threshold, **kwargs)
 
         return parcial
 

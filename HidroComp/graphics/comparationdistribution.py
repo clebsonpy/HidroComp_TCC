@@ -1,9 +1,7 @@
-import plotly as plot
-import plotly.plotly as py
 import plotly.graph_objs as go
 
 
-class Comparation_Distribution(object):
+class ComparationDistribution(object):
 
     def __init__(self, figs, type_function, name):
         self.figs = figs
@@ -19,10 +17,10 @@ class Comparation_Distribution(object):
                       width=945, height=827,
                       xaxis=bandxaxis,
                       yaxis=bandyaxis,
-                      font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
+                      font=dict(family='Time New Roman', size=34,
+                                color='rgb(0,0,0)')
+                      )
 
         fig = dict(data=self.figs, layout=layout)
-        #name_graphic = 'GP_'+self.type_function+'_'+self.name
-        #plot.offline.plot(fig, filename='gráficos/' + name_graphic + '.html')
-        #py.image.save_as(fig, filename='gráficos/'+name_graphic+'.png')
+
         return fig

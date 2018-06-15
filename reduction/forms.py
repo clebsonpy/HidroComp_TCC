@@ -1,27 +1,44 @@
 from django import forms
 
-from odm2admin.models import Results
+from odm2admin.models import Results, Organizations
 
 
-class ParcialForm(forms.Form):
+class SeriesForm(forms.Form):
+
+    station = forms.ModelChoiceField(label='Station', queryset=Results.objects.all())
+    source = forms.ModelChoiceField(
+        label='Source', queryset=Organizations.objects.all()
+    )
+    date_start = forms.DateField(label='Start Date', required=False)
+    date_end = forms.DateField(label='End Date', required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(SeriesForm, self).__init__(*args, **kwargs)
+
+
+class SeriesResultsForm(forms.Form):
+
+    return_period = forms.FloatField(label='Return Period', required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(SeriesResultsForm, self).__init__(*args, **kwargs)
+
+
+class ParcialForm(SeriesForm):
     type_threshold_choices = (
         ('1', 'stationary'),
         ('2', 'events_by_year'))
 
     type_criterion_choices = (
-        ('1', 'mediana'),
-        ('2', 'xmin_maior_qmin'),
-        ('3', 'xmin_maior_dois_terco_x'),
-        ('4', 'autocorrelação'))
+        ('1', 'median'),
+        ('2', 'xmin_larger_qmin'),
+        ('3', 'xmin_larger_dois_terco_x'),
+        ('4', 'autocorrelation'))
 
     type_event_choices = (
-        ('1', 'cheia'),
-        ('2', 'estiagem'),)
+        ('1', 'flood'),
+        ('2', 'drought'),)
 
-    station = forms.ModelChoiceField(label='Station', queryset=Results.objects.all())
-    source = forms.CharField(label='Source', max_length=25)
-    date_start = forms.DateField(label='Start Date', required=False)
-    date_end = forms.DateField(label='End Date', required=False)
     type_threshold = forms.ChoiceField(label='Threshold type',
                                        choices=type_threshold_choices, )
     value_threshold = forms.FloatField(label='Threshold Value')
@@ -35,20 +52,7 @@ class ParcialForm(forms.Form):
         super(ParcialForm, self).__init__(*args, **kwargs)
 
 
-class MaximasForm(forms.Form):
-
-    station = forms.ModelChoiceField(label='Station', queryset=Results.objects.all())
-    source = forms.CharField(label='Source', max_length=25)
-    date_start = forms.DateField(label='Start Date', required=False)
-    date_end = forms.DateField(label='End Date', required=False)
+class MaximasForm(SeriesForm):
 
     def __init__(self, *args, **kwargs):
         super(MaximasForm, self).__init__(*args, **kwargs)
-
-
-class SeriesResultsForm(forms.Form):
-
-    return_period = forms.FloatField(label='Return Period', required=True)
-
-    def __init__(self, *args, **kwargs):
-        super(SeriesResultsForm, self).__init__(*args, **kwargs)

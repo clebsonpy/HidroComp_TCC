@@ -29,10 +29,11 @@ class Boxplot(object):
         layout = dict(title="Magnitudes",
                       showlegend=False,
                       width=1890, height=827,
-                      font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
+                      font=dict(family='Time New Roman', size=34,
+                                color='rgb(0,0,0)')
+                      )
 
         fig = dict(data=data, layout=layout)
-        #py.offline.plot(fig, filename='gráficos/boxplot.html')
         return data, fig
 
     def plot_comparasion(self):
@@ -40,8 +41,9 @@ class Boxplot(object):
         layout = dict(title="Magnitudes",
                       showlegend=False,
                       width=1890, height=827,
-                      font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)'))
+                      font=dict(family='Time New Roman', size=34,
+                                color='rgb(0,0,0)')
+                      )
 
         fig = dict(data=self.figs, layout=layout)
-        #py.offline.plot(fig, filename='gráficos/boxplot.html')
-        #save.image.save_as(fig, filename='gráficos/boxplot_group.png')
+        return fig
