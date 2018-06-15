@@ -17,11 +17,11 @@ from django.conf.urls import url
 
 from . import views
 
-app_name = 'series'
+app_name = 'reduction'
 
 urlpatterns = [
-    url(r'parcial/', views.parcial, name='create_parcial'),
-    url(r'maxima/', views.maximas, name='create_maxima'),
+    url(r'reduction/', views.parcial, name='parcial'),
+    url(r'maximum/', views.maximum, name='maximum'),
     url(r'create/', views.redirect, name='create'),
     url(r'results/', views.results, name='results'),
 ]

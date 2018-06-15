@@ -13,7 +13,7 @@ from odm2admin.models import Timeseriesresultvalues
 class ParcialFormView(FormView):
 
     form_class = ParcialForm
-    template_name = 'parcial/parcial.html'
+    template_name = 'reduction/serie_create.html'
     success_url = reverse_lazy('series:results')
 
     def get(self, request, *args, **kwargs):
@@ -53,13 +53,13 @@ class ParcialFormView(FormView):
                    'return_time': post['return_time'],
                    'graphs': div
                    }
-        return render(request, 'parcial/serie_result.html', context=context)
+        return render(request, 'reduction/serie_result.html', context=context)
 
 
 class MaximaFormView(FormView):
 
     form_class = MaximasForm
-    template_name = 'parcial/maximas.html'
+    template_name = 'reduction/serie_create.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -90,12 +90,12 @@ class SerieRedirectView(RedirectView):
         data, fig = maxima.plot_hydrogram()
         div = opy.plot(data, auto_open=False, output_type='div')
         self.request.COOKIES['div'] = div
-        return reverse('series:results')
+        return reverse('reduction:results')
 
 
 class SeriesResultsView(TemplateView):
 
-    template_name = 'parcial/serie_result.html'
+    template_name = 'reduction/serie_result.html'
 
     def get_context_data(self, **kwargs):
         context = super(SeriesResultsView, self).get_context_data(**kwargs)
@@ -108,6 +108,6 @@ class SeriesResultsView(TemplateView):
 
 
 parcial = ParcialFormView.as_view()
-maximas = MaximaFormView.as_view()
+maximum = MaximaFormView.as_view()
 redirect = SerieRedirectView.as_view()
 results = SeriesResultsView.as_view()

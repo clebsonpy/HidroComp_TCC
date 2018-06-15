@@ -24,7 +24,7 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^lookups/(?P<channel>[-\w]+)$', ajax_select_views.ajax_lookup,name='ajax_lookup'),
     url(r'^$', views.index, name='index'),
-    url('series/', include('parcial.urls'), name='series'),
+    url('reduction/', include('reduction.urls'), name='reduction'),
     url('dados/', include('core.urls'), name='dados'),
     url(r'^entrar/$', login, {'template_name':'sign_in.html'}, name='sing_in'),
     url(r'^sair/$', logout, {'next_page':'index'}, name='sing_out'),
