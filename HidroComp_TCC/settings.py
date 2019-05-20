@@ -83,6 +83,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'HidroComp_TCC.urls'
 
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 TEMPLATES = [
     {
@@ -115,7 +116,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'odm2',
-        'USER': 'clebson',
+        'USER': 'postgres',
         'PASSWORD': '89635241',
         'HOST': 'localhost',
         'PORT': '5432',

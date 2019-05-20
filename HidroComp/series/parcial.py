@@ -447,14 +447,15 @@ class Parcial(object):
                                         threshold=self.threshold,
                                         threshold_criterion=self.threshold_criterion,
                                         title = title)
-            fig = hydrogrm.plot(type_criterion=self.type_criterion)
+            fig, date = hydrogrm.plot(type_criterion=self.type_criterion)
             if save:
                 aux_name = title.replace(' ', '_')
                 py.image.save_as(fig, filename='gráficos/'+'%s.png' % aux_name)
+            return fig
 
         except AttributeError:
             self.event_peaks()
-            self.plot_hydrogram(title)
+            return self.plot_hydrogram(title)
 
     def plot_boxplot_resample(self, magn_resample, name, save=False):
 

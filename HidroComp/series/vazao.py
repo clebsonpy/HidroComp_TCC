@@ -36,11 +36,11 @@ class Vazao(Series):
 
     def parcial(self, station, type_threshold, type_event, type_criterion,
                 value_threshold, **kwargs):
-        parcial = Parcial(obj=self, station=station, type_threshold=type_threshold,
+        self.parcial = Parcial(obj=self, station=station, type_threshold=type_threshold,
                           type_event=type_event, type_criterion=type_criterion,
                           value_threshold=value_threshold, **kwargs)
 
-        return parcial
+        return self.parcial
 
     def plot_hydrogram(self, station=None):
         if station is None:

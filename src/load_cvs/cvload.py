@@ -426,7 +426,7 @@ parser.add_argument(
         "postgresql+psycopg2://ODM:odm@test.uwrl.usu.edu/odm2\n"
         "sqlite+pysqlite:///path/to/file",
         default=True, type=str, dest='conn_string')
-parser.add_argument('-d', '--debug', 
+parser.add_argument('-d', '--debug',
         help="Debugging program without committing anything to"
         " remote database",
         action="store_true")
@@ -435,7 +435,7 @@ args = parser.parse_args()
 # ------------------------------------------------------------------------------
 #                                   Script Begin
 # ------------------------------------------------------------------------------
-## Verify connection string 
+## Verify connection string
 conn_string = args.conn_string
 
 
@@ -495,19 +495,19 @@ skos = "{http://www.w3.org/2004/02/skos/core#}%s"
 odm2 = "{http://vocabulary.odm2.org/ODM2/ODM2Terms/}%s"
 
 # ------------------------------------------------------------------------------
-#                                  Progress bar 
+#                                  Progress bar
 # ------------------------------------------------------------------------------
 def update_progress(count, value):
     sys.stdout.write("\033[K\r")
     sys.stdout.flush()
-    sys.stdout.write("[%-26s] %d%% %s Loaded\r" % 
+    sys.stdout.write("[%-26s] %d%% %s Loaded\r" %
                      ('='*count, (count+0.0)/len(vocab)*100, str(value)))
     sys.stdout.flush()
 
 for count, (key, value) in enumerate(vocab):
     # print (count, key, value)
     # print ("\tLoading %s" % key)
-    update_progress(count, value)                
+    update_progress(count, value)
     try:
         data = request.urlopen(url % key).read()
         root = ET.fromstring(data)
@@ -541,4 +541,3 @@ for count, (key, value) in enumerate(vocab):
 update_progress(len(vocab), "CV_Terms")
 sys.stdout.write("\nCV Load has completed\r\n")
 sys.stdout.flush()
-
