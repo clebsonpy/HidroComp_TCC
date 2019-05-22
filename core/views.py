@@ -82,13 +82,14 @@ class TimeSerieResultsValuesView(CreateView):
 
         nAdd = []
         for i in dados.index:
+            print(i)
             try:
                 ts = Timeseriesresultvalues(resultid=result, censorcodecv=censor,
                                             qualitycodecv=quality, valuedatetimeutcoffset=value_utc,
                                             timeaggregationinterval=time_inter,
                                             timeaggregationintervalunitsid=units_time,
                                             valuedatetime=i,
-                                            datavalue=dados['XINGO'][i])
+                                            datavalue=dados[1][i])
 
                 ts.save()
             except (NonExistentTimeError, AmbiguousTimeError):
