@@ -1,9 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
 from django.core.files.uploadedfile import UploadedFile
 
 import pandas as pd
+from HidroComp.series.vazao import Vazao
 
 from odm2admin.models import (Results, Units, Variables, Featureactions,
                               Timeseriesresultvalues, Samplingfeatures, Actions,
@@ -14,8 +16,8 @@ from odm2admin.forms import (VariablesAdminForm, UnitsAdminForm, ActionsAdminFor
 from pytz import NonExistentTimeError, AmbiguousTimeError
 
 from core.forms import ResultsForm
-from .forms import (SamplingFeaturesForm, FeatureForm, OrganizationsForm,
-                    TimeResultsSeriesValuesForm, TimeSeriesResultsForm)
+from .forms import (SamplingFeaturesForm, FeatureForm, OrganizationsForm, TimeResultsSeriesValuesForm,
+                    TimeSeriesResultsForm)
 
 
 class IndexView(TemplateView):
@@ -23,7 +25,7 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
 
-class ResultsIndexView(TemplateView):
+class ResultsIndexView(LoginRequiredMixin, TemplateView):
 
     template_name = 'data_index.html'
 
@@ -69,9 +71,10 @@ class TimeSerieResultsValuesView(CreateView):
 
     def post(self, request, *args, **kwargs):
         file = request.FILES['File']
-        dados = pd.read_csv(file, index_col=0, names=["Data", "XINGO"],
-                            parse_dates=True)
-        print(len(dados))
+        #dados = pd.read_csv(file, index_col=0, names=["Data", "XINGO"],
+        #                    parse_dates=True)
+
+
         post = request.POST
         result = Timeseriesresults.objects.get(pk=post['resultid'])
         censor = CvCensorcode.objects.get(pk=post['censorcodecv'])
@@ -79,6 +82,11 @@ class TimeSerieResultsValuesView(CreateView):
         units_time = Units.objects.get(pk=post['timeaggregationintervalunitsid'])
         time_inter = post['timeaggregationinterval']
         value_utc = post['valuedatetimeutcoffset']
+        source = result.resultid.featureactionid.action.method.organizationid.organizationname
+        print(file)
+        dados = Vazao(path=file, source=source.upper()).data
+
+        print(len(dados))
 
         nAdd = []
         for i in dados.index:
