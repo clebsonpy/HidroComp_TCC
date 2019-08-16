@@ -11,9 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
 import dj_database_url
-
 from . import settings_odm2admin
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -29,10 +27,15 @@ VERBOSE_NAME = 'ODM2 Admin'
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'c9)=b5(07+xx*45-a&prz4qcvbt&&+pwc6=%xd!xrl8@6a$0*k'
+#SECRET_KEY = 'c9)=b5(07+xx*45-a&prz4qcvbt&&+pwc6=%xd!xrl8@6a$0*k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+
+SECRET_KEY = os.environ.get('SECRET_KEY', default='foo')
+
+DEBUG = int(os.environ.get('DEBUG', default=0))
+
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'hydrocomp.herokuapp.com']
 
@@ -121,10 +124,10 @@ WSGI_APPLICATION = 'HidroComp_TCC.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'odm2',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '89635241',
-        'HOST': 'localhost',
+        'PASSWORD': 'postgres',
+        'HOST': 'hydrocomp.herokuapp.com',
         'PORT': '5432',
         'OPTIONS': {
             'options': '-c search_path=public,admin,odm2,odm2extra'
@@ -178,7 +181,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
