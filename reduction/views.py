@@ -4,7 +4,7 @@ from django.views.generic import FormView, RedirectView, TemplateView
 
 import pandas as pd
 import plotly.offline as opy
-from HidroComp.series.vazao import Vazao
+from HydroComp.series.flow import Flow
 
 from .forms import ParcialForm, MaximasForm, SeriesResultsForm
 from odm2admin.models import Timeseriesresultvalues
@@ -24,6 +24,7 @@ class ParcialFormView(FormView):
         post = request.POST
         time_serie = Timeseriesresultvalues.objects.filter(
             resultid=post['station']).values_list('datavalue', 'valuedatetime')
+
         dic = {'Data': [], post['source']: []}
         for i in time_serie:
             dic['Data'].append(i[1])
@@ -36,7 +37,7 @@ class ParcialFormView(FormView):
         type_event = self.form_class.type_event_choices[int(post['type_event'])-1][1]
 
         data = pd.DataFrame(dic, index=dic['Data'], columns=[post['source']])
-        serie = Vazao(data=data, source=post['source'])
+        serie = Flow(data=data, source=post['source'])
         if post['date_start'] != '':
             serie.date(date_start=post['date_start'], date_end=post['date_end'])
 
@@ -48,8 +49,7 @@ class ParcialFormView(FormView):
                                 duration=float(post['duration']))
 
         #return_magn = parcial.magnitude(float(post['return_time']))
-
-        fig = parcial.plot_hydrogram('Parcial')
+        fig, data = parcial.plot_hydrogram('Parcial')
         div = opy.plot(fig, auto_open=False, output_type='div')
         context = {#'return_magn': return_magn,
                    #'return_time': post['return_time'],
@@ -69,20 +69,21 @@ class MaximaFormView(FormView):
 
     def post(self, request, *args, **kwargs):
         post = self.request.POST
-        print(post)
+
         time_serie = Timeseriesresultvalues.objects.filter(
             resultid=post['station']).values_list('datavalue', 'valuedatetime')
-        dic = {'Data': [], post['source']: []}
+        dic = {'Data': [], post['station']: []}
         for i in time_serie:
             dic['Data'].append(i[1])
-            dic[post['source']].append(i[0])
+            dic[post['station']].append(i[0])
+        data = pd.DataFrame(dic, index=dic['Data'], columns=[post['station']])
 
-        data = pd.DataFrame(dic, index=dic['Data'], columns=[post['source']])
-        serie = Vazao(data=data, source=post['source'])
+        serie = Flow(data=data, source=post['station'])
+
         if post['date_start'] != '':
             serie.date(date_start=post['date_start'], date_end=post['date_end'])
 
-        maxima = serie.maximum(post['source'])
+        maxima = serie.maximum(post['station'])
 
         self.request.COOKIES['serie'] = maxima
 
@@ -107,7 +108,7 @@ class SerieRedirectView(RedirectView):
             dic[post['source']].append(i[0])
 
         data = pd.DataFrame(dic, index=dic['Data'], columns=[post['source']])
-        serie = Vazao(data=data, source=post['source'])
+        serie = Flow(data=data, source=post['source'])
         if post['date_start'] != '':
             serie.date(date_start=post['date_start'], date_end=post['date_end'])
 

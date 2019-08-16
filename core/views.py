@@ -1,11 +1,16 @@
+import os
+
+import django
+import psycopg2
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.files.storage import default_storage
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
 from django.core.files.uploadedfile import UploadedFile
 
 import pandas as pd
-from HidroComp.series.vazao import Vazao
+from HydroComp.series.flow import Flow
 
 from odm2admin.models import (Results, Units, Variables, Featureactions,
                               Timeseriesresultvalues, Samplingfeatures, Actions,
@@ -74,7 +79,8 @@ class TimeSerieResultsValuesView(CreateView):
         #dados = pd.read_csv(file, index_col=0, names=["Data", "XINGO"],
         #                    parse_dates=True)
 
-
+        path = default_storage.save('data_file/%s' % file.name, file)
+        file = os.path.abspath(path)
         post = request.POST
         result = Timeseriesresults.objects.get(pk=post['resultid'])
         censor = CvCensorcode.objects.get(pk=post['censorcodecv'])
@@ -83,25 +89,20 @@ class TimeSerieResultsValuesView(CreateView):
         time_inter = post['timeaggregationinterval']
         value_utc = post['valuedatetimeutcoffset']
         source = result.resultid.featureactionid.action.method.organizationid.organizationname
-        print(file)
-        dados = Vazao(path=file, source=source.upper()).data
+        station = result.resultid.featureactionid.samplingfeatureid.samplingfeaturename
+        print(station)
+        dados = Flow(path=file, source=source.upper(), station=station.upper())
+        default_storage.delete(path)
 
-        print(len(dados))
+        for i in dados.data.index:
+            ts = Timeseriesresultvalues(resultid=result, censorcodecv=censor,
+                                        qualitycodecv=quality, valuedatetimeutcoffset=value_utc,
+                                        timeaggregationinterval=time_inter,
+                                        timeaggregationintervalunitsid=units_time,
+                                        valuedatetime=i.to_datetime(),
+                                        datavalue=dados.data[dados.data.columns.values[0]][i])
 
-        nAdd = []
-        for i in dados.index:
-            print(i)
-            try:
-                ts = Timeseriesresultvalues(resultid=result, censorcodecv=censor,
-                                            qualitycodecv=quality, valuedatetimeutcoffset=value_utc,
-                                            timeaggregationinterval=time_inter,
-                                            timeaggregationintervalunitsid=units_time,
-                                            valuedatetime=i,
-                                            datavalue=dados[1][i])
-
-                ts.save()
-            except (NonExistentTimeError, AmbiguousTimeError):
-                nAdd.append(ts)
+            ts.save()
 
         return redirect(self.success_url)
 
@@ -151,7 +152,7 @@ class TimeSeriesResultsView(CreateView):
     model = Timeseriesresults
     form_class = TimeSeriesResultsForm
     template_name = 'time_series_results.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('dados:time_serie')
 
 
 index = IndexView.as_view()
