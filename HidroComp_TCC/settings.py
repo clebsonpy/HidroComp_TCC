@@ -127,7 +127,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'hydrocomp.herokuapp.com',
+        'HOST': 'db',
         'PORT': '5432',
         'OPTIONS': {
             'options': '-c search_path=public,admin,odm2,odm2extra'
