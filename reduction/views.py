@@ -77,14 +77,14 @@ class MaximaFormView(FormView):
             dic['Data'].append(i[1])
             dic[post['station']].append(i[0])
         data = pd.DataFrame(dic, index=dic['Data'], columns=[post['station']])
-
+        data = data.sort_index()
         serie = Flow(data=data, source=post['station'])
 
         if post['date_start'] != '':
             serie.date(date_start=post['date_start'], date_end=post['date_end'])
 
         maxima = serie.maximum(post['station'])
-
+        print(maxima.peaks)
         self.request.COOKIES['serie'] = maxima
 
         data, fig = maxima.plot_hydrogram()

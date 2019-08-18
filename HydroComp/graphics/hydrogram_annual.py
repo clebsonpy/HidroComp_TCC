@@ -32,7 +32,7 @@ class HydrogramAnnual(HydrogramBiuld):
         point_peak = go.Scatter(
             x=self.peaks.index,
             y=self.data[self.data.columns.values[0]].loc[self.peaks.index].values,
-            name="Pico",
+            name="Peaks",
             mode='markers',
             marker=dict(size=8,
                         color='rgb(128, 128, 128)',

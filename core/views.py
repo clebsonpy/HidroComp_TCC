@@ -90,20 +90,21 @@ class TimeSerieResultsValuesView(CreateView):
         value_utc = post['valuedatetimeutcoffset']
         source = result.resultid.featureactionid.action.method.organizationid.organizationname
         station = result.resultid.featureactionid.samplingfeatureid.samplingfeaturename
-        print(station)
         dados = Flow(path=file, source=source.upper(), station=station.upper())
         default_storage.delete(path)
+        dados.data = dados.data.dropna()
+        time_serie_result_list = []
 
         for i in dados.data.index:
-            ts = Timeseriesresultvalues(resultid=result, censorcodecv=censor,
+            obj_ts = Timeseriesresultvalues(resultid=result, censorcodecv=censor,
                                         qualitycodecv=quality, valuedatetimeutcoffset=value_utc,
                                         timeaggregationinterval=time_inter,
                                         timeaggregationintervalunitsid=units_time,
                                         valuedatetime=i.to_datetime(),
                                         datavalue=dados.data[dados.data.columns.values[0]][i])
 
-            ts.save()
-
+            time_serie_result_list.append(obj_ts)
+        Timeseriesresultvalues.objects.bulk_create(time_serie_result_list)
         return redirect(self.success_url)
 
 
