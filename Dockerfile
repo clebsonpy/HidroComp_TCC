@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 RUN python manage.py collectstatic --noinput
 
 # run gunicorn
-CMD gunicorn HidroComp_TCC.wsgi:application --bi1nd 0.0.0.0:$PORT
+CMD gunicorn HidroComp_TCC.wsgi:application --bind 0.0.0.0:$PORT

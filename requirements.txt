@@ -5,7 +5,7 @@ decorator==4.3.0
 defusedxml==0.5.0
 diff-match-patch==20121119
 dj-database-url==0.5.0
-Django==2.2.1
+Django>=1.11
 django-admin-shortcuts==2.0.0
 django-ajax-selects==1.7.1
 django-apptemplates==1.4

@@ -1,0 +1,10 @@
+*.ipynb_checkpoints/
+*.pyc
+.idea/
+venv/
+Medicoes/*/*.txt
+*.xls
+*.xlsx
+gráficos/
+output/
+*.vscode/

@@ -124,21 +124,28 @@ WSGI_APPLICATION = 'HidroComp_TCC.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'NAME': 'dd5uo767v6tic5',
+        'USER': 'mtdnpticlzwmym',
+        'PASSWORD': '6e0780b4483fd5e43d0b0b5d7826d7f8cbef3845ca5e27f9c1a31570a21e7259',
+        'HOST': 'ec2-23-21-186-85.compute-1.amazonaws.com',
         'PORT': '5432',
         'OPTIONS': {
             'options': '-c search_path=public,admin,odm2,odm2extra'
         }
     }
 }
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
 DATABASES['default'].update(db_from_env)
-
+"""
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
