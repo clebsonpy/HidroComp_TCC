@@ -1,13 +1,11 @@
 import os
 
-import django
-import psycopg2
+import plotly.offline as opy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files.storage import default_storage
-from django.shortcuts import redirect
-from django.views.generic import TemplateView, CreateView
+from django.shortcuts import redirect, render
+from django.views.generic import TemplateView, CreateView, FormView
 from django.urls import reverse_lazy
-from django.core.files.uploadedfile import UploadedFile
 
 import pandas as pd
 from HydroComp.series.flow import Flow
@@ -20,7 +18,9 @@ from odm2admin.forms import (VariablesAdminForm, UnitsAdminForm, ActionsAdminFor
                              MethodsAdminForm, ProcessingLevelsAdminForm)
 from pytz import NonExistentTimeError, AmbiguousTimeError
 
-from core.forms import ResultsForm
+from core.forms import ResultsForm, GanttForm
+from reduction.views import get_data
+
 from .forms import (SamplingFeaturesForm, FeatureForm, OrganizationsForm, TimeResultsSeriesValuesForm,
                     TimeSeriesResultsForm)
 
@@ -156,6 +156,32 @@ class TimeSeriesResultsView(CreateView):
     success_url = reverse_lazy('dados:time_serie')
 
 
+class Gantt(FormView):
+
+    form_class = GanttForm
+    template_name = 'gantt.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        post = self.request.POST
+
+        data, station = get_data(post)
+        series = Flow(data=data, source=station)
+
+        fig = series.gantt('')
+
+        div = opy.plot(fig, auto_open=False, output_type='div')
+
+        context = {  # 'return_magn': return_magn,
+            # 'return_time': post['return_time'],
+            'graphs': div
+        }
+        return render(request, 'reduction/serie_result.html', context=context)
+
+
 index = IndexView.as_view()
 results_index = ResultsIndexView.as_view()
 actions = ActionsView.as_view()
@@ -169,3 +195,4 @@ units = UnitsView.as_view()
 organizations = OrganizationsView.as_view()
 time_series = TimeSerieResultsValuesView.as_view()
 time_serie_result = TimeSeriesResultsView.as_view()
+gantt = Gantt.as_view()

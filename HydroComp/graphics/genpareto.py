@@ -22,7 +22,7 @@ class GenPareto(DistributionBiuld):
 
         layout = dict(title="GP - Acumulada: %s" % self.title,
                       showlegend=True,
-                      width=945, height=827,
+                      #width=945, height=827,
                       xaxis=bandxaxis,
                       yaxis=bandyaxis,
                       font=dict(family='Time New Roman', size=28, color='rgb(0,0,0)')

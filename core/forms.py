@@ -67,3 +67,12 @@ class OrganizationsForm(OrganizationsAdminForm):
         model = Organizations
         fields = ['organizationcode', 'organizationname',
                   'organizationtypecv', 'parentorganizationid']
+
+
+class GanttForm(forms.Form):
+    station = forms.ModelChoiceField(label='Station', queryset=Results.objects.all())
+    source = forms.ModelChoiceField(
+        label='Source', queryset=Organizations.objects.all()
+    )
+    def __init__(self, *args, **kwargs):
+        super(GanttForm, self).__init__(*args, **kwargs)

@@ -16,7 +16,7 @@ class HydrogramClean(HydrogramBiuld):
         try:
 
             layout = dict(title="Hidrograma",
-                          width=1890, height=827,
+                          #width=1890, height=827,
                           xaxis=bandxaxis, yaxis=bandyaxis,
                           font=dict(family='Time New Roman', size=25, color='rgb(0,0,0)')
                           )
@@ -29,9 +29,9 @@ class HydrogramClean(HydrogramBiuld):
         except AttributeError:
             name = 'Hidrograma'
             layout = dict(title=name,
-                          width=1890, height=827,
+                          #width=1890, height=827,
                           xaxis=bandxaxis, yaxis=bandyaxis,
-                          font=dict(family='Time New Roman', size=25))
+                          font=dict(family='Time New Roman', size=18))
 
             data = list()
             data.append(self._plot_multi())

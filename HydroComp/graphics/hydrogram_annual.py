@@ -15,9 +15,9 @@ class HydrogramAnnual(HydrogramBiuld):
         bandyaxis = go.layout.YAxis(title="Vazão(m³/s)")
 
         layout = dict(title="Hidrograma Série Máximas Anuais",
-                      width=1890, height=827,
+                      #width=1890, height=827,
                       xaxis=bandxaxis, yaxis=bandyaxis,
-                      font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)')
+                      font=dict(family='Time New Roman', size=18, color='rgb(0,0,0)')
                       )
 
         data = list()

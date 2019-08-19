@@ -4,7 +4,7 @@
 
 {% block container %}
 <div class="page-header">
-    <h2>Annual Maximums</h2>
+    {% block reduction %}{% endblock %}
     <form class="form-horizontal" method="post">
         {% csrf_token %}
         <fieldset>

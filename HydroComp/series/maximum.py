@@ -41,21 +41,14 @@ class Maximum(object):
             return self.mvs()
 
     def magnitude(self, period_return, estimador):
+        if estimador == 'mvs':
+            self.mvs()
+        elif estimador == 'mml':
+            self.dist_gev.mml()
+        prob = 1-(1 / period_return)
+        mag = self.dist_gev.values(prob)
 
-        try:
-            prob = 1-(1 / period_return)
-            mag = stat.genpareto.ppf(prob, self.fit[0], self.fit[1],
-                                     self.fit[2])
-            return mag
-
-        except AttributeError:
-            if estimador == 'mvs':
-                self.mvs()
-            elif estimador == 'mml':
-                self.mml()
-            else:
-                raise ValueError
-            return self.magnitude(period_return)
+        return mag
 
 
 

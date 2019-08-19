@@ -25,9 +25,9 @@ class HydrogramParcial(HydrogramBiuld):
             layout = dict(
                 title=name,
                 showlegend=True,
-                width=1890, height=827,
+                #width=1890, height=827,
                 xaxis=bandxaxis, yaxis=bandyaxis,
-                font=dict(family='Time New Roman', size=28, color='rgb(0,0,0)'))
+                font=dict(family='Time New Roman', size=18, color='rgb(0,0,0)'))
 
             data = []
             data.append(self._plot_one(self.data))
@@ -44,9 +44,9 @@ class HydrogramParcial(HydrogramBiuld):
             layout = dict(
                 title=name,
                 showlegend=True,
-                width=1890, height=827,
+                #width=1890, height=827,
                 xaxis=bandxaxis, yaxis=bandyaxis,
-                font=dict(family='Time New Roman', size=28, color='rgb(0,0,0)'))
+                font=dict(family='Time New Roman', size=18, color='rgb(0,0,0)'))
 
             data = []
             data.append(self._plot_one(self.data))

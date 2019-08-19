@@ -7,13 +7,28 @@ import plotly.offline as opy
 from HydroComp.series.flow import Flow
 
 from .forms import ParcialForm, MaximasForm, SeriesResultsForm
-from odm2admin.models import Timeseriesresultvalues
+from odm2admin.models import Timeseriesresultvalues, Timeseriesresults
+
+
+def get_data(post):
+    time_series = Timeseriesresultvalues.objects.filter(
+        resultid=post['station']).values_list('datavalue', 'valuedatetime')
+
+    results_obj = Timeseriesresults.objects.get(pk=post['station'])
+    station = results_obj.resultid.featureactionid.samplingfeatureid.samplingfeaturename
+
+    dic = {'Data': [], station: []}
+    for i in time_series:
+        dic['Data'].append(i[1])
+        dic[station].append(i[0])
+    data = pd.DataFrame(dic, index=dic['Data'], columns=[station])
+    return data.sort_index(), station
 
 
 class ParcialFormView(FormView):
 
     form_class = ParcialForm
-    template_name = 'reduction/serie_create.html'
+    template_name = 'reduction/series_partial.html'
     success_url = reverse_lazy('series:results')
 
     def get(self, request, *args, **kwargs):
@@ -22,35 +37,27 @@ class ParcialFormView(FormView):
 
     def post(self, request, *args, **kwargs):
         post = request.POST
-        time_serie = Timeseriesresultvalues.objects.filter(
-            resultid=post['station']).values_list('datavalue', 'valuedatetime')
 
-        dic = {'Data': [], post['source']: []}
-        for i in time_serie:
-            dic['Data'].append(i[1])
-            dic[post['source']].append(i[0])
-
-        type_criterion = self.form_class.type_criterion_choices[
-            int(post['type_criterion'])-1][1]
-        type_threshold = self.form_class.type_threshold_choices[
-            int(post['type_threshold'])-1][1]
+        data, station = get_data(post)
+        type_criterion = self.form_class.type_criterion_choices[int(post['type_criterion'])-1][1]
+        type_threshold = self.form_class.type_threshold_choices[int(post['type_threshold'])-1][1]
         type_event = self.form_class.type_event_choices[int(post['type_event'])-1][1]
 
-        data = pd.DataFrame(dic, index=dic['Data'], columns=[post['source']])
-        serie = Flow(data=data, source=post['source'])
+        series = Flow(data=data, source=station)
         if post['date_start'] != '':
-            serie.date(date_start=post['date_start'], date_end=post['date_end'])
+            series.date(date_start=post['date_start'], date_end=post['date_end'])
 
-        parcial = serie.parcial(station=post['source'],
+        parcial = series.parcial(station=station,
                                 type_threshold=type_threshold,
                                 type_event=type_event,
                                 type_criterion=type_criterion,
                                 value_threshold=float(post['value_threshold']),
                                 duration=float(post['duration']))
 
-        #return_magn = parcial.magnitude(float(post['return_time']))
         fig, data = parcial.plot_hydrogram('Parcial')
+
         div = opy.plot(fig, auto_open=False, output_type='div')
+
         context = {#'return_magn': return_magn,
                    #'return_time': post['return_time'],
                    'graphs': div
@@ -61,7 +68,7 @@ class ParcialFormView(FormView):
 class MaximaFormView(FormView):
 
     form_class = MaximasForm
-    template_name = 'reduction/serie_create.html'
+    template_name = 'reduction/series_maximum.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -70,55 +77,45 @@ class MaximaFormView(FormView):
     def post(self, request, *args, **kwargs):
         post = self.request.POST
 
-        time_serie = Timeseriesresultvalues.objects.filter(
-            resultid=post['station']).values_list('datavalue', 'valuedatetime')
-        dic = {'Data': [], post['station']: []}
-        for i in time_serie:
-            dic['Data'].append(i[1])
-            dic[post['station']].append(i[0])
-        data = pd.DataFrame(dic, index=dic['Data'], columns=[post['station']])
-        data = data.sort_index()
-        serie = Flow(data=data, source=post['station'])
+        data, station = get_data(post)
+        series = Flow(data=data, source=station)
 
         if post['date_start'] != '':
-            serie.date(date_start=post['date_start'], date_end=post['date_end'])
+            series.date(date_start=post['date_start'], date_end=post['date_end'])
 
-        maxima = serie.maximum(post['station'])
-        print(maxima.peaks)
+        maxima = series.maximum(station)
+
         self.request.COOKIES['serie'] = maxima
 
         data, fig = maxima.plot_hydrogram()
         div = opy.plot(data, auto_open=False, output_type='div')
-        context = {#'return_magn': return_magn,
-                   #'return_time': post['return_time'],
-                   'graphs': div
-                   }
+        magn = dict()
+        for i in [2, 10, 20, 30, 50, 100]:
+            magn[i] = round(maxima.magnitude(i, estimador='mml'), 3)
+
+        context = {'magn': magn, 'graphs': div}
         return render(request, 'reduction/serie_result.html', context=context)
+
 
 class SerieRedirectView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         post = self.request.POST
-        print(post)
-        time_serie = Timeseriesresultvalues.objects.filter(
-            resultid=post['station']).values_list('datavalue', 'valuedatetime')
-        dic = {'Data': [], post['source']: []}
-        for i in time_serie:
-            dic['Data'].append(i[1])
-            dic[post['source']].append(i[0])
 
-        data = pd.DataFrame(dic, index=dic['Data'], columns=[post['source']])
-        serie = Flow(data=data, source=post['source'])
+        data, station = get_data(post)
+        series = Flow(data=data, source=station)
+
         if post['date_start'] != '':
-            serie.date(date_start=post['date_start'], date_end=post['date_end'])
+            series.date(date_start=post['date_start'], date_end=post['date_end'])
 
-        maxima = serie.maximum(post['source'])
+        maxima = series.maximum(station)
 
         self.request.COOKIES['serie'] = maxima
 
         data, fig = maxima.plot_hydrogram()
         div = opy.plot(data, auto_open=False, output_type='div')
         self.request.COOKIES['div'] = div
+
         return reverse('reduction:results')
 
 

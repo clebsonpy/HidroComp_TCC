@@ -23,7 +23,7 @@ class Boxplot(object):
 
         layout = dict(title="Magnitudes",
                       showlegend=False,
-                      width=1890, height=827,
+                      #width=1890, height=827,
                       font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)')
                       )
 
@@ -34,7 +34,7 @@ class Boxplot(object):
 
         layout = dict(title="Magnitudes",
                       showlegend=False,
-                      width=1890, height=827,
+                      #width=1890, height=827,
                       font=dict(family='Time New Roman', size=34, color='rgb(0,0,0)')
                       )
 
