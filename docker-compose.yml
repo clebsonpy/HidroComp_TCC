@@ -1,8 +1,17 @@
-version: '3'
 
 services:
   db:
-    image: postgres
+    image: kartoza/postgis:14-3.3
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "5439:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - ./db-backups:/db-backups/
+
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -12,3 +21,7 @@ services:
       - "8000:8000"
     links:
       - db
+
+
+volumes:
+  postgres_data:

@@ -138,10 +138,10 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'odm2',
-        'USER': 'clebsonpy',
-        'PASSWORD': '89635241',
-        'HOST': 'localhost',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'db',
         'PORT': '5432',
         'OPTIONS': {
             'options': '-c search_path=public,admin,odm2,odm2extra'
