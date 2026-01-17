@@ -12,7 +12,7 @@ jsonschema==2.6.0
 jupyter-core==4.4.0
 lmoments3
 nbformat==4.4.0
-numpy==1.14.2
+numpy==1.22.0
 pandas==0.22.0
 parso==0.2.0
 pexpect==4.5.0
